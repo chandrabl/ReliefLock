@@ -1,0 +1,12 @@
+/// <reference types="vite/client" />
+
+interface ImportMetaEnv {
+  readonly VITE_API_URL?: string
+  readonly VITE_STELLAR_NETWORK?: 'TESTNET' | 'PUBLIC'
+  readonly VITE_STELLAR_RPC_URL?: string
+  readonly VITE_CONTRACT_ID?: string
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv
+}

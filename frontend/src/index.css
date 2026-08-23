@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  --color-paper: #F7F8FA;
+  --color-paper-dim: #EEF0F4;
+  --color-ink: #10141C;
+  --color-ink-soft: #4B5266;
+  --color-line: #E4E7EE;
+
+  --color-signal: #2C3695;
+  --color-signal-dim: #E9EAF7;
+  --color-aid: #E1553B;
+  --color-aid-dim: #FBEAE6;
+  --color-settled: #1F8A5F;
+  --color-settled-dim: #E7F3ED;
+  --color-voucher: #B8922E;
+  --color-voucher-dim: #F7F0DD;
+}
+
+body {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Voucher-stub signature element: dashed perforation between the "stub"
+   and the "ticket" halves of a campaign card. */
+.voucher-perforation {
+  position: relative;
+}
+.voucher-perforation::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  border-left: 2px dashed var(--color-line);
+}
+.voucher-notch {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: var(--color-paper);
+  border: 1px solid var(--color-line);
+  left: -9px;
+}
+
+.input {
+  border: 1px solid var(--color-line);
+  border-radius: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  background: white;
+  font-size: 0.875rem;
+  color: var(--color-ink);
+}
+.input:focus {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 1px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
