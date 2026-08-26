@@ -1,0 +1,177 @@
+import { useState } from 'react'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { toast } from 'sonner'
+import { Plus } from 'lucide-react'
+import { VoucherStub } from '@/components/VoucherStub'
+import { useCampaigns } from '@/lib/campaigns'
+import { api } from '@/lib/api'
+import { Field } from '@/pages/Login'
+
+export default function NgoDashboard() {
+  const { data } = useCampaigns()
+  const [showForm, setShowForm] = useState(false)
+
+  return (
+    <div className="mx-auto max-w-6xl px-6 py-12">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="font-display text-3xl text-[var(--color-ink)]">Your campaigns</h1>
+          <p className="mt-2 text-[var(--color-ink-soft)]">
+            Create, fund, and manage aid programs. Funding and payouts are enforced on-chain.
+          </p>
+        </div>
+        <button
+          onClick={() => setShowForm((s) => !s)}
+          className="inline-flex items-center gap-2 rounded-full bg-[var(--color-ink)] px-4 py-2.5 text-sm font-medium text-white hover:opacity-90"
+        >
+          <Plus className="h-4 w-4" /> New campaign
+        </button>
+      </div>
+
+      {showForm && <CreateCampaignForm onClose={() => setShowForm(false)} />}
+
+      <div className="mt-8 grid gap-4 md:grid-cols-2">
+        {data?.items.map((c) => (
+          <VoucherStub
+            key={c._id}
+            campaignId={c.onChainId}
+            name={c.name}
+            status={c.status}
+            allocation={c.allocationPerBeneficiary}
+            token="USDC"
+            deadline={new Date(c.expiryTime).toLocaleDateString()}
+          />
+        ))}
+        {data?.items.length === 0 && (
+          <div className="col-span-2 rounded-xl border border-dashed border-[var(--color-line)] p-10 text-center text-[var(--color-ink-soft)]">
+            No campaigns yet — create your first one above.
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function CreateCampaignForm({ onClose }: { onClose: () => void }) {
+  const queryClient = useQueryClient()
+  const [form, setForm] = useState({
+    name: '',
+    description: '',
+    totalFunding: '10000',
+    allocationPerBeneficiary: '100',
+    maxClaimsPerBeneficiary: '1',
+    durationDays: '30',
+    merchantRestricted: false,
+  })
+
+  const mutation = useMutation({
+    mutationFn: async () => {
+      // Step 1 in a fully wired build: call create_campaign on-chain via
+      // Freighter, wait for confirmation, then attach off-chain metadata:
+      const onChainId = Math.floor(Math.random() * 100000) // placeholder until wired to the contract
+      const now = new Date()
+      const expiry = new Date(now.getTime() + Number(form.durationDays) * 86400_000)
+      return api.post('/campaigns', {
+        onChainId,
+        name: form.name,
+        description: form.description,
+        token: 'USDC_TESTNET_CONTRACT_ID',
+        totalFunding: form.totalFunding,
+        allocationPerBeneficiary: form.allocationPerBeneficiary,
+        maxClaimsPerBeneficiary: Number(form.maxClaimsPerBeneficiary),
+        merchantRestricted: form.merchantRestricted,
+        startTime: now.toISOString(),
+        expiryTime: expiry.toISOString(),
+        ngoWallet: 'PENDING_WALLET_CONNECT',
+      })
+    },
+    onSuccess: () => {
+      toast.success('Campaign created — fund it on-chain to activate')
+      queryClient.invalidateQueries({ queryKey: ['campaigns'] })
+      onClose()
+    },
+    onError: () => toast.error('Could not create campaign'),
+  })
+
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        mutation.mutate()
+      }}
+      className="mt-6 grid gap-4 rounded-2xl border border-[var(--color-line)] bg-white p-6 md:grid-cols-2"
+    >
+      <Field label="Campaign name">
+        <input
+          required
+          className="input"
+          value={form.name}
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
+        />
+      </Field>
+      <Field label="Category / description">
+        <input
+          className="input"
+          value={form.description}
+          onChange={(e) => setForm({ ...form, description: e.target.value })}
+        />
+      </Field>
+      <Field label="Total funding (USDC)">
+        <input
+          type="number"
+          min={1}
+          className="input"
+          value={form.totalFunding}
+          onChange={(e) => setForm({ ...form, totalFunding: e.target.value })}
+        />
+      </Field>
+      <Field label="Allocation per beneficiary">
+        <input
+          type="number"
+          min={1}
+          className="input"
+          value={form.allocationPerBeneficiary}
+          onChange={(e) => setForm({ ...form, allocationPerBeneficiary: e.target.value })}
+        />
+      </Field>
+      <Field label="Max claims per beneficiary">
+        <input
+          type="number"
+          min={1}
+          className="input"
+          value={form.maxClaimsPerBeneficiary}
+          onChange={(e) => setForm({ ...form, maxClaimsPerBeneficiary: e.target.value })}
+        />
+      </Field>
+      <Field label="Claim window (days)">
+        <input
+          type="number"
+          min={1}
+          className="input"
+          value={form.durationDays}
+          onChange={(e) => setForm({ ...form, durationDays: e.target.value })}
+        />
+      </Field>
+      <label className="col-span-2 flex items-center gap-2 text-sm text-[var(--color-ink-soft)]">
+        <input
+          type="checkbox"
+          checked={form.merchantRestricted}
+          onChange={(e) => setForm({ ...form, merchantRestricted: e.target.checked })}
+        />
+        Restrict redemption to approved merchants (voucher mode)
+      </label>
+      <div className="col-span-2 flex justify-end gap-3">
+        <button type="button" onClick={onClose} className="px-4 py-2 text-sm text-[var(--color-ink-soft)]">
+          Cancel
+        </button>
+        <button
+          type="submit"
+          disabled={mutation.isPending}
+          className="rounded-full bg-[var(--color-ink)] px-5 py-2.5 text-sm font-medium text-white hover:opacity-90 disabled:opacity-60"
+        >
+          {mutation.isPending ? 'Creating…' : 'Create campaign'}
+        </button>
+      </div>
+    </form>
+  )
+}
