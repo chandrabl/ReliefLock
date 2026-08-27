@@ -23,7 +23,7 @@ const recordSchema = z.object({
 transactionsRouter.post("/", requireAuth, async (req, res, next) => {
   try {
     const body = recordSchema.parse(req.body);
-    const tx = await Transaction.create({ ...body, status: "pending" });
+    const tx = await Transaction.create({ ...body, txHash: body.hash, status: "pending" });
     res.status(201).json(tx);
   } catch (err) {
     next(err);

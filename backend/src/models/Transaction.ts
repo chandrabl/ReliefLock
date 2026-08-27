@@ -13,6 +13,7 @@ export const TX_TYPES = [
 const transactionSchema = new Schema(
   {
     hash: { type: String, required: true, unique: true, index: true },
+    txHash: { type: String }, // Backwards compatibility for old MongoDB index
     type: { type: String, enum: TX_TYPES, required: true },
     status: { type: String, enum: TX_STATUSES, default: "pending", index: true },
     campaignOnChainId: { type: Number, index: true },
