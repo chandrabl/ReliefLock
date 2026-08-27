@@ -46,10 +46,40 @@ export async function connectWallet(): Promise<WalletState> {
 
   const networkResult = await getNetwork()
 
+  if (addressResult.address) {
+    localStorage.setItem('rl_wallet_address', addressResult.address)
+  }
+
   return {
     connected: true,
     address: addressResult.address,
     network: networkResult.error ? null : networkResult.network,
+  }
+}
+
+export async function autoConnectWallet(): Promise<WalletState | null> {
+  try {
+    const savedAddress = localStorage.getItem('rl_wallet_address')
+    if (!savedAddress) return null
+
+    const connectedResult = await isConnected()
+    if (connectedResult.error || !connectedResult.isConnected) return null
+
+    const allowedResult = await isAllowed()
+    if (!allowedResult.isAllowed) return null
+
+    const addressResult = await getAddress()
+    if (addressResult.error) return null
+
+    const networkResult = await getNetwork()
+
+    return {
+      connected: true,
+      address: addressResult.address,
+      network: networkResult.error ? null : networkResult.network,
+    }
+  } catch {
+    return null
   }
 }
 

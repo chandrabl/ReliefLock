@@ -4,10 +4,12 @@ import { VoucherStub } from '@/components/VoucherStub'
 import { useCampaigns } from '@/lib/campaigns'
 import { useAuth } from '@/lib/auth'
 import { connectWallet } from '@/lib/wallet'
-import { contractCalls, CONTRACT_ID } from '@/lib/contract'
+import { contractCalls } from '@/lib/contract'
 import { api } from '@/lib/api'
+import { useQueryClient } from '@tanstack/react-query'
 
 export default function BeneficiaryDashboard() {
+  const queryClient = useQueryClient()
   const { user } = useAuth()
   const { data, isLoading } = useCampaigns({ status: 'Active' })
   const [claimingId, setClaimingId] = useState<number | null>(null)
@@ -19,16 +21,6 @@ export default function BeneficiaryDashboard() {
       const wallet = await connectWallet()
       if (!wallet.address) throw new Error('Connect your wallet first')
 
-      if (!CONTRACT_ID) {
-        // Demo mode: no deployed contract configured yet. Skips the real
-        // on-chain call so the UI flow is still fully clickable, but this
-        // branch should be removed once VITE_CONTRACT_ID is set.
-        await new Promise((r) => setTimeout(r, 900))
-        setClaimedIds((prev) => new Set(prev).add(campaignId))
-        toast.warning('Demo mode: no contract deployed yet, this claim was not sent on-chain')
-        return
-      }
-
       const { hash } = await contractCalls.claimAid(wallet.address, campaignId)
       await api.post('/transactions', {
         hash,
@@ -37,7 +29,24 @@ export default function BeneficiaryDashboard() {
         initiatorWallet: wallet.address,
       })
       setClaimedIds((prev) => new Set(prev).add(campaignId))
-      toast.success('Claim confirmed on-chain')
+      
+      toast.success(
+        <div>
+          Claim confirmed!{' '}
+          <a
+            href={`https://stellar.expert/explorer/testnet/tx/${hash}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+          >
+            View on Explorer
+          </a>
+        </div>
+      )
+      
+      // Refresh the balances instantly
+      queryClient.invalidateQueries({ queryKey: ['campaigns'] })
+      
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Claim failed. Please try again.')
     } finally {

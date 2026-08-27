@@ -134,4 +134,31 @@ export const contractCalls = {
       ],
       merchant,
     ),
+
+  createCampaign: (
+    ngo: string,
+    token: string,
+    name: string,
+    totalFunding: bigint,
+    allocationPerBeneficiary: bigint,
+    startTime: number,
+    expiryTime: number,
+    maxClaims: number,
+    merchantRestricted: boolean,
+  ) =>
+    invokeContract(
+      'create_campaign',
+      [
+        { type: 'address', value: ngo },
+        { type: 'address', value: token },
+        { type: 'string', value: name },
+        { type: 'i128', value: totalFunding },
+        { type: 'i128', value: allocationPerBeneficiary },
+        { type: 'u64', value: startTime },
+        { type: 'u64', value: expiryTime },
+        { type: 'u32', value: maxClaims },
+        { type: 'bool', value: merchantRestricted },
+      ],
+      ngo,
+    ),
 }

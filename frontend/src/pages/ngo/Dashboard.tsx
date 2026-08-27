@@ -6,6 +6,8 @@ import { VoucherStub } from '@/components/VoucherStub'
 import { useCampaigns } from '@/lib/campaigns'
 import { api } from '@/lib/api'
 import { Field } from '@/pages/Login'
+import { connectWallet } from '@/lib/wallet'
+import { contractCalls } from '@/lib/contract'
 
 export default function NgoDashboard() {
   const { data } = useCampaigns()
@@ -66,31 +68,68 @@ function CreateCampaignForm({ onClose }: { onClose: () => void }) {
 
   const mutation = useMutation({
     mutationFn: async () => {
-      // Step 1 in a fully wired build: call create_campaign on-chain via
-      // Freighter, wait for confirmation, then attach off-chain metadata:
-      const onChainId = Math.floor(Math.random() * 100000) // placeholder until wired to the contract
+      const wallet = await connectWallet()
+      if (!wallet.address) throw new Error('Connect your wallet first')
+
       const now = new Date()
-      const expiry = new Date(now.getTime() + Number(form.durationDays) * 86400_000)
+      const startTime = Math.floor(now.getTime() / 1000)
+      const expiryTime = startTime + Number(form.durationDays) * 86400
+
+      // We need a valid token address. On Testnet, we should use a real XLM/USDC token address,
+      // but for this demo, we'll just pass the contract ID itself if we don't have one to pass Soroban validation.
+      const tokenAddress = import.meta.env.VITE_CONTRACT_ID as string
+
+      const { hash, result: onChainId } = await contractCalls.createCampaign(
+        wallet.address,
+        tokenAddress,
+        form.name,
+        BigInt(form.totalFunding),
+        BigInt(form.allocationPerBeneficiary),
+        startTime,
+        expiryTime,
+        Number(form.maxClaimsPerBeneficiary),
+        form.merchantRestricted,
+      )
+
+      await api.post('/transactions', {
+        hash,
+        type: 'create_campaign',
+        campaignOnChainId: Number(onChainId),
+        initiatorWallet: wallet.address,
+      })
+
       return api.post('/campaigns', {
-        onChainId,
+        onChainId: Number(onChainId),
         name: form.name,
         description: form.description,
-        token: 'USDC_TESTNET_CONTRACT_ID',
+        token: tokenAddress,
         totalFunding: form.totalFunding,
         allocationPerBeneficiary: form.allocationPerBeneficiary,
         maxClaimsPerBeneficiary: Number(form.maxClaimsPerBeneficiary),
         merchantRestricted: form.merchantRestricted,
         startTime: now.toISOString(),
-        expiryTime: expiry.toISOString(),
-        ngoWallet: 'PENDING_WALLET_CONNECT',
-      })
+        expiryTime: new Date(expiryTime * 1000).toISOString(),
+        ngoWallet: wallet.address,
+      }).then(() => hash) // return hash for the toast
     },
-    onSuccess: () => {
-      toast.success('Campaign created — fund it on-chain to activate')
+    onSuccess: (hash) => {
+      toast.success(
+        <div>
+          Campaign created!{' '}
+          <a
+            href={`https://stellar.expert/explorer/testnet/tx/${hash}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+          >
+            View on Explorer
+          </a>
+        </div>
+      )
       queryClient.invalidateQueries({ queryKey: ['campaigns'] })
       onClose()
     },
-    onError: () => toast.error('Could not create campaign'),
+    onError: (err) => toast.error(err instanceof Error ? err.message : 'Could not create campaign'),
   })
 
   return (

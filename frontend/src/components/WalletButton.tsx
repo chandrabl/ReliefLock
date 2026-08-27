@@ -1,11 +1,19 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Wallet, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
-import { connectWallet } from '@/lib/wallet'
+import { connectWallet, autoConnectWallet } from '@/lib/wallet'
 
 export function WalletButton() {
   const [address, setAddress] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    async function restore() {
+      const state = await autoConnectWallet()
+      if (state?.address) setAddress(state.address)
+    }
+    restore()
+  }, [])
 
   async function handleConnect() {
     setLoading(true)
