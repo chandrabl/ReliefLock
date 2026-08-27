@@ -151,7 +151,16 @@ function CreateCampaignForm({ onClose }: { onClose: () => void }) {
       queryClient.invalidateQueries({ queryKey: ['campaigns'] })
       onClose()
     },
-    onError: (err) => toast.error(err instanceof Error ? err.message : 'Could not create campaign'),
+    onError: (err: any) => {
+      const msg = err?.response?.data?.error || err.message || 'Could not create campaign'
+      const details = err?.response?.data?.details
+      toast.error(
+        <div className="flex flex-col gap-1">
+          <span>{msg}</span>
+          {details && <pre className="text-xs text-red-300">{JSON.stringify(details, null, 2)}</pre>}
+        </div>,
+      )
+    },
   })
 
   return (
