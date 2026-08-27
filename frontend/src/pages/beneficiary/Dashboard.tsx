@@ -78,13 +78,21 @@ export default function BeneficiaryDashboard() {
           {data?.items.map((c) => {
             const dateObj = new Date(c.expiryTime);
             const deadline = !isNaN(dateObj.getTime()) ? dateObj.toLocaleDateString() : 'Invalid Date';
+            
+            let allocString = String(c.allocationPerBeneficiary || 0);
+            try {
+               allocString = (BigInt(allocString) / 10000000n).toString();
+            } catch (e) {
+               // Fallback if parsing fails
+            }
+
             return (
               <VoucherStub
                 key={c._id}
                 campaignId={c.onChainId}
                 name={c.name}
                 status={c.status}
-                allocation={(BigInt(c.allocationPerBeneficiary) / 10000000n).toString()}
+                allocation={allocString}
                 token="XLM"
                 deadline={deadline}
                 claimed={claimedIds.has(c.onChainId)}

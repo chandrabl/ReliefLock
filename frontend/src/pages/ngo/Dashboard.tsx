@@ -36,13 +36,21 @@ export default function NgoDashboard() {
         {data?.items.map((c) => {
           const dateObj = new Date(c.expiryTime);
           const deadline = !isNaN(dateObj.getTime()) ? dateObj.toLocaleDateString() : 'Invalid Date';
+          let allocString = String(c.allocationPerBeneficiary || 0);
+          try {
+             // Only scale if it parses cleanly as BigInt (no decimals)
+             allocString = (BigInt(allocString) / 10000000n).toString();
+          } catch (e) {
+             // Fallback to original string if it's old mock data (e.g. decimals or already scaled)
+          }
+
           return (
             <VoucherStub
               key={c._id}
               campaignId={c.onChainId}
               name={c.name}
               status={c.status}
-              allocation={(BigInt(c.allocationPerBeneficiary) / 10000000n).toString()}
+              allocation={allocString}
               token="XLM"
               deadline={deadline}
             />
