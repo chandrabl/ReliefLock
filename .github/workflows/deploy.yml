@@ -16,7 +16,7 @@ jobs:
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: wasm32-unknown-unknown
+          targets: wasm32-unknown-unknown, wasm32v1-none
 
       - name: Cache cargo registry and binaries
         uses: actions/cache@v4
@@ -38,20 +38,18 @@ jobs:
 
       # 3. Build using standard cargo to avoid 'wasm32v1-none' errors, then manually optimize
       - name: Build contracts
-        run: |
-          cargo build --target wasm32-unknown-unknown --release
-          stellar contract optimize --wasm target/wasm32-unknown-unknown/release/relieflock_contract.wasm
+        run: stellar contract build --optimize
 
       - name: Deploy to Testnet
         run: |
           echo "Generating identities..."
-          stellar keys generate deployer --network testnet
-          stellar keys fund deployer --network testnet
+          stellar keys generate deployer --network testnet || true
+          stellar keys fund deployer --network testnet || true
 
           echo "Deploying Contract..."
           # 4. ALWAYS deploy the .optimized.wasm file!
           CONTRACT_ID=$(stellar contract deploy \
-            --wasm target/wasm32-unknown-unknown/release/relieflock_contract.optimized.wasm \
+            --wasm target/wasm32v1-none/release/relieflock_contract.wasm \
             --source deployer \
             --network testnet 2>deploy_err.log) || { cat deploy_err.log; exit 1; }
           echo "Contract deployed at: $CONTRACT_ID"
