@@ -2,6 +2,7 @@ import { Schema, model, type InferSchemaType } from "mongoose";
 
 export const TX_STATUSES = ["pending", "confirmed", "failed", "expired"] as const;
 export const TX_TYPES = [
+  "create_campaign",
   "fund_campaign",
   "claim_aid",
   "issue_voucher",
