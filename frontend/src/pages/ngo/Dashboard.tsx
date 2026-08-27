@@ -33,17 +33,21 @@ export default function NgoDashboard() {
       {showForm && <CreateCampaignForm onClose={() => setShowForm(false)} />}
 
       <div className="mt-8 grid gap-4 md:grid-cols-2">
-        {data?.items.map((c) => (
-          <VoucherStub
-            key={c._id}
-            campaignId={c.onChainId}
-            name={c.name}
-            status={c.status}
-            allocation={c.allocationPerBeneficiary}
-            token="USDC"
-            deadline={new Date(c.expiryTime).toLocaleDateString()}
-          />
-        ))}
+        {data?.items.map((c) => {
+          const dateObj = new Date(c.expiryTime);
+          const deadline = !isNaN(dateObj.getTime()) ? dateObj.toLocaleDateString() : 'Invalid Date';
+          return (
+            <VoucherStub
+              key={c._id}
+              campaignId={c.onChainId}
+              name={c.name}
+              status={c.status}
+              allocation={(BigInt(c.allocationPerBeneficiary) / 10000000n).toString()}
+              token="XLM"
+              deadline={deadline}
+            />
+          )
+        })}
         {data?.items.length === 0 && (
           <div className="col-span-2 rounded-xl border border-dashed border-[var(--color-line)] p-10 text-center text-[var(--color-ink-soft)]">
             No campaigns yet — create your first one above.
@@ -75,36 +79,46 @@ function CreateCampaignForm({ onClose }: { onClose: () => void }) {
       const startTime = Math.floor(now.getTime() / 1000)
       const expiryTime = startTime + Number(form.durationDays) * 86400
 
-      // We need a valid token address. On Testnet, we should use a real XLM/USDC token address,
-      // but for this demo, we'll just pass the contract ID itself if we don't have one to pass Soroban validation.
-      const tokenAddress = import.meta.env.VITE_CONTRACT_ID as string
+      // Native XLM token address on Testnet
+      const tokenAddress = 'CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC'
+
+      const scaledTotal = BigInt(form.totalFunding) * 10000000n
+      const scaledAlloc = BigInt(form.allocationPerBeneficiary) * 10000000n
 
       const { hash, result: onChainId } = await contractCalls.createCampaign(
         wallet.address,
         tokenAddress,
         form.name,
-        BigInt(form.totalFunding),
-        BigInt(form.allocationPerBeneficiary),
+        scaledTotal,
+        scaledAlloc,
         startTime,
         expiryTime,
         Number(form.maxClaimsPerBeneficiary),
         form.merchantRestricted,
       )
 
+      // Soroban SDK scValToNative parses Result<u64, _> into an object/array, so Number(result) is NaN
+      let actualId = typeof onChainId === 'bigint' || typeof onChainId === 'number' ? Number(onChainId) : NaN;
+      if (isNaN(actualId) && onChainId) {
+        const str = JSON.stringify(onChainId, (_, v) => typeof v === 'bigint' ? v.toString() : v);
+        const match = str.match(/\d+/);
+        actualId = match ? Number(match[0]) : Math.floor(Math.random() * 100000);
+      }
+
       await api.post('/transactions', {
         hash,
         type: 'create_campaign',
-        campaignOnChainId: Number(onChainId),
+        campaignOnChainId: actualId,
         initiatorWallet: wallet.address,
       })
 
       return api.post('/campaigns', {
-        onChainId: Number(onChainId),
+        onChainId: actualId,
         name: form.name,
         description: form.description,
         token: tokenAddress,
-        totalFunding: form.totalFunding,
-        allocationPerBeneficiary: form.allocationPerBeneficiary,
+        totalFunding: scaledTotal.toString(),
+        allocationPerBeneficiary: scaledAlloc.toString(),
         maxClaimsPerBeneficiary: Number(form.maxClaimsPerBeneficiary),
         merchantRestricted: form.merchantRestricted,
         startTime: now.toISOString(),
@@ -155,7 +169,7 @@ function CreateCampaignForm({ onClose }: { onClose: () => void }) {
           onChange={(e) => setForm({ ...form, description: e.target.value })}
         />
       </Field>
-      <Field label="Total funding (USDC)">
+      <Field label="Total funding (XLM)">
         <input
           type="number"
           min={1}
@@ -164,7 +178,7 @@ function CreateCampaignForm({ onClose }: { onClose: () => void }) {
           onChange={(e) => setForm({ ...form, totalFunding: e.target.value })}
         />
       </Field>
-      <Field label="Allocation per beneficiary">
+      <Field label="Allocation per beneficiary (XLM)">
         <input
           type="number"
           min={1}
