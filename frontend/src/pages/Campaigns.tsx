@@ -2,7 +2,7 @@ import { VoucherStub } from '@/components/VoucherStub'
 import { useCampaigns } from '@/lib/campaigns'
 
 export default function Campaigns() {
-  const { data, isLoading, isError } = useCampaigns({ status: 'Active' })
+  const { data, isLoading, isError } = useCampaigns()
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
