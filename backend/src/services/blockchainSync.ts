@@ -83,11 +83,16 @@ export class BlockchainSyncService {
     const onChain = await this.contractClient.getCampaign(onChainId);
     if (!onChain) return null;
 
+    let newStatus = (onChain as any).status;
+    if (Array.isArray(newStatus)) {
+      newStatus = newStatus[0];
+    }
+
     const updated = await Campaign.findOneAndUpdate(
       { onChainId },
       {
         $set: {
-          status: (onChain as { status: CampaignDoc["status"] }).status,
+          status: newStatus,
           fundedAmount: String((onChain as { funded_amount: bigint }).funded_amount ?? "0"),
           distributedAmount: String(
             (onChain as { distributed_amount: bigint }).distributed_amount ?? "0",
