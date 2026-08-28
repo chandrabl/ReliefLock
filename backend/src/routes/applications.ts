@@ -61,3 +61,18 @@ applicationsRouter.get("/", requireAuth, async (req, res, next) => {
     next(err);
   }
 });
+
+// Force update application status
+applicationsRouter.patch("/:id/status", requireAuth, requireRole("ngo"), async (req, res, next) => {
+  try {
+    const app = await Application.findByIdAndUpdate(
+      req.params.id,
+      { $set: { status: req.body.status } },
+      { new: true }
+    );
+    if (!app) throw new ApiError(404, "Application not found");
+    res.json(app);
+  } catch (err) {
+    next(err);
+  }
+});

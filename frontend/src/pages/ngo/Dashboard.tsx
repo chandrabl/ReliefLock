@@ -67,9 +67,12 @@ export default function NgoDashboard() {
         counterpartyWallet: app.beneficiaryWallet,
       })
 
+      // Force update the application status in DB immediately
+      await api.patch(`/applications/${app._id}/status`, { status: 'Approved' })
+
       toast.success('Beneficiary approved on-chain!', { id: 'approve-toast' })
       
-      // Optimistically update the UI so it doesn't show "Pending" until the next refresh
+      // Update the UI so it doesn't show "Pending"
       queryClient.setQueryData(['applications', 'ngo'], (old: any) => {
         if (!old) return old
         return old.map((a: any) => 
