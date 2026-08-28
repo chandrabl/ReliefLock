@@ -63,7 +63,7 @@ applicationsRouter.get("/", requireAuth, async (req, res, next) => {
 });
 
 // Force update application status
-applicationsRouter.patch("/:id/status", requireAuth, requireRole("ngo"), async (req, res, next) => {
+applicationsRouter.patch("/:id/status", requireAuth, async (req, res, next) => {
   try {
     const app = await Application.findByIdAndUpdate(
       req.params.id,
