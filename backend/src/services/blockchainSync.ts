@@ -4,6 +4,7 @@ import { logger } from "../config/logger.js";
 import { Campaign, type CampaignDoc } from "../models/Campaign.js";
 import { Transaction } from "../models/Transaction.js";
 import { ContractClient } from "./contractClient.js";
+import { Application } from "../models/Application.js";
 
 /**
  * Polls the Soroban RPC for new ledgers, reconciles pending transactions
@@ -82,7 +83,6 @@ export class BlockchainSyncService {
             tx.campaignOnChainId != null &&
             tx.counterpartyWallet != null
           ) {
-            const { Application } = await import("../models/Application.js");
             await Application.findOneAndUpdate(
               { campaignOnChainId: tx.campaignOnChainId, beneficiaryWallet: tx.counterpartyWallet },
               { $set: { status: "Approved" } }

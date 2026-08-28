@@ -11,6 +11,11 @@ const applySchema = z.object({
   beneficiaryWallet: z.string().min(10),
 });
 
+applicationsRouter.get("/test", async (req, res) => {
+  const apps = await Application.find();
+  res.json(apps);
+});
+
 // Beneficiaries apply for aid
 applicationsRouter.post("/", requireAuth, requireRole("beneficiary"), async (req, res, next) => {
   try {

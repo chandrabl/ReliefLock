@@ -30,6 +30,11 @@ transactionsRouter.post("/", requireAuth, async (req, res, next) => {
   }
 });
 
+transactionsRouter.get("/test", async (req, res) => {
+  const txs = await Transaction.find({ type: "add_beneficiary" });
+  res.json(txs);
+});
+
 transactionsRouter.get("/:hash", async (req, res, next) => {
   try {
     const tx = await Transaction.findOne({ hash: req.params.hash });
