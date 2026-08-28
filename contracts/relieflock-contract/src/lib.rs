@@ -54,9 +54,11 @@ fn get_campaign(env: &Env, campaign_id: u64) -> Result<Campaign, Error> {
 fn save_campaign(env: &Env, campaign: &Campaign) {
     let key = DataKey::Campaign(campaign.id);
     env.storage().persistent().set(&key, campaign);
-    env.storage()
-        .persistent()
-        .extend_ttl(&key, PERSISTENT_LIFETIME_THRESHOLD, PERSISTENT_BUMP_AMOUNT);
+    env.storage().persistent().extend_ttl(
+        &key,
+        PERSISTENT_LIFETIME_THRESHOLD,
+        PERSISTENT_BUMP_AMOUNT,
+    );
 }
 
 fn get_beneficiary(env: &Env, campaign_id: u64, addr: &Address) -> Result<Beneficiary, Error> {
@@ -76,9 +78,11 @@ fn save_beneficiary(env: &Env, b: &Beneficiary) {
         addr: b.address.clone(),
     });
     env.storage().persistent().set(&key, b);
-    env.storage()
-        .persistent()
-        .extend_ttl(&key, PERSISTENT_LIFETIME_THRESHOLD, PERSISTENT_BUMP_AMOUNT);
+    env.storage().persistent().extend_ttl(
+        &key,
+        PERSISTENT_LIFETIME_THRESHOLD,
+        PERSISTENT_BUMP_AMOUNT,
+    );
 }
 
 fn is_merchant_authorized(env: &Env, campaign_id: u64, merchant: &Address) -> bool {
@@ -99,9 +103,11 @@ fn get_voucher(env: &Env, voucher_id: u64) -> Result<Voucher, Error> {
 fn save_voucher(env: &Env, v: &Voucher) {
     let key = DataKey::Voucher(v.id);
     env.storage().persistent().set(&key, v);
-    env.storage()
-        .persistent()
-        .extend_ttl(&key, PERSISTENT_LIFETIME_THRESHOLD, PERSISTENT_BUMP_AMOUNT);
+    env.storage().persistent().extend_ttl(
+        &key,
+        PERSISTENT_LIFETIME_THRESHOLD,
+        PERSISTENT_BUMP_AMOUNT,
+    );
 }
 
 fn checked_add(a: i128, b: i128) -> Result<i128, Error> {
@@ -197,7 +203,9 @@ impl ReliefLockContract {
             .get(&DataKey::CampaignCount)
             .unwrap_or(0);
         count += 1;
-        env.storage().instance().set(&DataKey::CampaignCount, &count);
+        env.storage()
+            .instance()
+            .set(&DataKey::CampaignCount, &count);
 
         let campaign = Campaign {
             id: count,
@@ -223,7 +231,12 @@ impl ReliefLockContract {
 
     /// Transfers `amount` of the campaign's token from the NGO into the
     /// contract. Automatically activates the campaign once fully funded.
-    pub fn fund_campaign(env: Env, ngo: Address, campaign_id: u64, amount: i128) -> Result<(), Error> {
+    pub fn fund_campaign(
+        env: Env,
+        ngo: Address,
+        campaign_id: u64,
+        amount: i128,
+    ) -> Result<(), Error> {
         require_not_globally_paused(&env)?;
         ngo.require_auth();
         if amount <= 0 {
@@ -234,7 +247,10 @@ impl ReliefLockContract {
         if campaign.ngo != ngo {
             return Err(Error::Unauthorized);
         }
-        if !matches!(campaign.status, CampaignStatus::Draft | CampaignStatus::Active) {
+        if !matches!(
+            campaign.status,
+            CampaignStatus::Draft | CampaignStatus::Active
+        ) {
             return Err(Error::CampaignNotDraft);
         }
         if campaign.funded_amount >= campaign.total_funding {
@@ -538,9 +554,11 @@ impl ReliefLockContract {
             return Err(Error::MerchantAlreadyAuthorized);
         }
         env.storage().persistent().set(&key, &true);
-        env.storage()
-            .persistent()
-            .extend_ttl(&key, PERSISTENT_LIFETIME_THRESHOLD, PERSISTENT_BUMP_AMOUNT);
+        env.storage().persistent().extend_ttl(
+            &key,
+            PERSISTENT_LIFETIME_THRESHOLD,
+            PERSISTENT_BUMP_AMOUNT,
+        );
         events::merchant_authorized(&env, campaign_id, &merchant);
         Ok(())
     }

@@ -16,10 +16,8 @@ pub fn campaign_status_changed(env: &Env, campaign_id: u64, status: u32) {
 }
 
 pub fn beneficiary_registered(env: &Env, campaign_id: u64, beneficiary: &Address) {
-    env.events().publish(
-        (symbol_short!("ben_reg"), campaign_id),
-        beneficiary.clone(),
-    );
+    env.events()
+        .publish((symbol_short!("ben_reg"), campaign_id), beneficiary.clone());
 }
 
 pub fn beneficiary_status_changed(env: &Env, campaign_id: u64, beneficiary: &Address, status: u32) {
@@ -36,9 +34,20 @@ pub fn aid_claimed(env: &Env, campaign_id: u64, beneficiary: &Address, amount: i
     );
 }
 
-pub fn voucher_issued(env: &Env, voucher_id: u64, campaign_id: u64, beneficiary: &Address, amount: i128) {
+pub fn voucher_issued(
+    env: &Env,
+    voucher_id: u64,
+    campaign_id: u64,
+    beneficiary: &Address,
+    amount: i128,
+) {
     env.events().publish(
-        (symbol_short!("vou_new"), voucher_id, campaign_id, beneficiary.clone()),
+        (
+            symbol_short!("vou_new"),
+            voucher_id,
+            campaign_id,
+            beneficiary.clone(),
+        ),
         amount,
     );
 }
@@ -51,17 +60,13 @@ pub fn voucher_redeemed(env: &Env, voucher_id: u64, merchant: &Address, amount: 
 }
 
 pub fn merchant_authorized(env: &Env, campaign_id: u64, merchant: &Address) {
-    env.events().publish(
-        (symbol_short!("merch_ok"), campaign_id),
-        merchant.clone(),
-    );
+    env.events()
+        .publish((symbol_short!("merch_ok"), campaign_id), merchant.clone());
 }
 
 pub fn merchant_removed(env: &Env, campaign_id: u64, merchant: &Address) {
-    env.events().publish(
-        (symbol_short!("merch_rm"), campaign_id),
-        merchant.clone(),
-    );
+    env.events()
+        .publish((symbol_short!("merch_rm"), campaign_id), merchant.clone());
 }
 
 pub fn campaign_refunded(env: &Env, campaign_id: u64, amount: i128) {
