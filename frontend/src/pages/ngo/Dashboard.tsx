@@ -76,7 +76,8 @@ export default function NgoDashboard() {
           a._id === app._id ? { ...a, status: 'Approved' } : a
         )
       })
-      queryClient.invalidateQueries({ queryKey: ['applications'] })
+      // Intentionally NOT invalidating queries here so we don't overwrite the 
+      // optimistic update with stale backend data before the sync loop runs.
     } catch (err: any) {
       toast.error(err.message || 'Failed to approve beneficiary')
     } finally {
