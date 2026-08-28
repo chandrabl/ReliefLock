@@ -33,12 +33,30 @@ export class BlockchainSyncService {
 
   start(intervalMs = 10_000): void {
     if (this.pollHandle) return;
+
+    this.rescueStuckCampaigns().catch((err) =>
+      logger.error({ err }, "rescueStuckCampaigns failed"),
+    );
+
     this.pollHandle = setInterval(() => {
       this.reconcilePendingTransactions().catch((err) =>
         logger.error({ err }, "reconcilePendingTransactions failed"),
       );
     }, intervalMs);
     logger.info({ intervalMs }, "Blockchain sync service started");
+  }
+
+  async rescueStuckCampaigns(): Promise<void> {
+    const draftCampaigns = await Campaign.find({ status: "Draft" });
+    for (const c of draftCampaigns) {
+      if (c.onChainId != null) {
+        try {
+          await this.refreshCampaign(c.onChainId);
+        } catch (err) {
+          logger.error({ err, onChainId: c.onChainId }, "Failed to rescue campaign");
+        }
+      }
+    }
   }
 
   stop(): void {
