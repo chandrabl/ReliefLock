@@ -30,7 +30,7 @@ ReliefLock is a production-ready programmable humanitarian aid distribution plat
 
 - **Advanced smart contract development**: Custom Soroban smart contract built with Rust, implementing complex humanitarian aid logic: campaign creation, NGO authorization, beneficiary registration, and dual redemption modes.
 - **Event streaming & real-time updates**: Application-level tracking of wallet interactions and on-chain events via the backend sync service.
-- **Comprehensive CI/CD & Deployment**: GitHub Actions (`ci.yml`) automatically runs backend/frontend builds. The frontend is deployed live on **Vercel** and backend on **Render**.
+- **Comprehensive CI/CD & Deployment**: GitHub Actions (`ci.yml`) automatically runs blocking `cargo fmt`, `cargo clippy`, contract tests, and a full frontend build on every push. The frontend uses a live external **Vercel** connection (connected directly via [relief-lock.vercel.app](https://relief-lock.vercel.app)) for continuous deployment on every merge to `main`.
 - **Smart contract deployment workflow**: Automated contract builds and testnet deployment via Stellar CLI.
 - **Mobile responsive frontend development**: Fully responsive dashboards across all user roles (NGO, Beneficiary, Merchant).
 - **Error handling & loading states**: Integrated observability with Sentry, toast notifications, loading indicators, and comprehensive error catching for contract failures.
