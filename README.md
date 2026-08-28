@@ -3,12 +3,14 @@
 ReliefLock is a production-ready programmable humanitarian aid distribution platform built on Stellar (Soroban). It solves the chronic issue of aid leakage and centralized delays by letting NGOs create campaigns with on-chain enforced rules—allocation per beneficiary, claim windows, and merchant-only redemption—while empowering beneficiaries to claim aid directly to their Stellar wallets, without intermediaries.
 
 ## 🔗 Live Demo & Links
-- 🌐 **Live Platform**: [https://relief-lock.vercel.app](https://relief-lock.vercel.app)
-- 🎥 **Demo Video**: [Watch Demo](https://drive.google.com/file/d/11UibQsRJK1bMWYNMFK66eGN_a14YvBdJ/view?usp=sharing)
+
+[![Live Platform](https://img.shields.io/badge/🌐%20Live%20Platform-relief--lock.vercel.app-blue?style=for-the-badge&logo=vercel&logoColor=white)](https://relief-lock.vercel.app)
+[![Demo Video](https://img.shields.io/badge/🎥%20Demo%20Video-Watch%20Now-red?style=for-the-badge&logo=googledrive&logoColor=white)](https://drive.google.com/file/d/11UibQsRJK1bMWYNMFK66eGN_a14YvBdJ/view?usp=sharing)
+[![Feedback Form](https://img.shields.io/badge/📝%20Feedback%20Form-Google%20Forms-green?style=for-the-badge&logo=googleforms&logoColor=white)](https://docs.google.com/forms/d/e/1FAIpQLSeoXc5BGenr3DJ8m7D6SpEzbsdwcuKpwbqfERm-F7l7kwAr2A/viewform?usp=dialog)
+[![User Data Sheet](https://img.shields.io/badge/📊%20User%20Data-Google%20Sheets-brightgreen?style=for-the-badge&logo=googlesheets&logoColor=white)](https://docs.google.com/spreadsheets/d/1BlfDUX3k-ZgwfFF6wD24TQM0iMxORRYc5NLTxTbS_ls/edit?usp=sharing)
+
 - 🔗 **Example Transaction Hash**: [`74376f376ddb0deb37b673ba0212d706d51322965518b120a2fca628cd4629c0`](https://stellar.expert/explorer/testnet/tx/74376f376ddb0deb37b673ba0212d706d51322965518b120a2fca628cd4629c0)
 - 📜 **ReliefLock Contract ID**: `CBGVHVHLAWWYKHRTGJY7N7BGNJBQKCGA4ETOJ4U57HUXFVE5QNXFYVN3`
-- 📊 **User Onboarding Data (11 Users)**: [View Exported CSV Sheet Here](https://docs.google.com/spreadsheets/d/1BlfDUX3k-ZgwfFF6wD24TQM0iMxORRYc5NLTxTbS_ls/edit?usp=sharing)
-- 📝 **Google Form Link**: [Feedback Form](https://docs.google.com/forms/d/e/1FAIpQLSeoXc5BGenr3DJ8m7D6SpEzbsdwcuKpwbqfERm-F7l7kwAr2A/viewform?usp=dialog)
 
 ## 🌟 Key Features
 
@@ -37,11 +39,11 @@ ReliefLock is a production-ready programmable humanitarian aid distribution plat
 
 | Product UI | Mobile Responsive View |
 |:---:|:---:|
-| <img src="screenshots/product ui.png" width="400" alt="Product UI"> | <img src="screenshots/mobile ui.png" width="400" alt="Mobile Design"> |
+| <img src="screenshots/product%20ui.png" width="400" alt="Product UI"> | <img src="screenshots/mobile%20ui.png" width="400" alt="Mobile Design"> |
 
 | NGO Campaign Board | Beneficiary Dashboard |
 |:---:|:---:|
-| <img src="screenshots/campaign board.png" width="400" alt="Campaign Board"> | <img src="screenshots/user dashbaord.png" width="400" alt="Beneficiary Dashboard"> |
+| <img src="screenshots/campaign%20board.png" width="400" alt="Campaign Board"> | <img src="screenshots/user%20dashbaord.png" width="400" alt="Beneficiary Dashboard"> |
 
 | On-Chain Analytics |
 |:---:|

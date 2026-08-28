@@ -21,11 +21,14 @@ jobs:
         run: cargo binstall --no-confirm stellar-cli
       - name: Build Contracts
         run: stellar contract build --optimize
+      - name: Run cargo fmt
+        run: cargo fmt --all -- --check
+      - name: Run cargo clippy
+        run: cargo clippy --workspace -- -D warnings
       - name: Run Contract Tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: cargo test --workspace --verbose | tail -60
-
+        run: cargo test --workspace --verbose
   frontend:
     runs-on: ubuntu-latest
     defaults:
