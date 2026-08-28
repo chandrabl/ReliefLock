@@ -67,6 +67,18 @@ We successfully onboarded **11 real users** with Stellar Testnet wallets and ver
 | 10 | Khushi Singh | singhkhushi0719@gmail.com | GARFFICGOH5BLSCQ6FRU5QG6KG3TZY5V5D6US4FO4TGPKAWOVLXGRG2C | Very responsive mobile design! I was able to claim my aid and redeem my voucher entirely from my phone browser. |
 | 11 | Rahul Kumar | rahulkumarsingh007@gmail.com | GAW2TZETZNJ6JRMJQNEXROVOMY22YPHJ5RSDXOWDE5M722K7V3LNPW2I | Overall a highly secure and transparent system. It would be amazing if you could integrate a QR code scanner directly into the merchant dashboard to instantly redeem user vouchers. |
 
+### 2. Continuous Improvements & Feature Iteration
+
+Based on the feedback collected from our test users, we immediately iterated and deployed the following highly requested features during the hackathon:
+
+| Feature Implemented | Target User Group | Addressed Feedback | Implementation Commit |
+|---|---|---|---|
+| **USDC Stablecoin Option** | NGOs & Beneficiaries | Included a stablecoin option to protect aid value against crypto volatility. | [`a3ef751`](https://github.com/chandrabl/ReliefLock/commit/a3ef751) |
+| **Merchant QR Scanner** | Merchants | Integrated a QR scanner button in the merchant dashboard for instant voucher redemption. | [`876c066`](https://github.com/chandrabl/ReliefLock/commit/876c066) |
+| **Multi-Language Support** | Beneficiaries | Added a language toggle (English/Hindi/Spanish) for better accessibility in rural areas. | [`40757c5`](https://github.com/chandrabl/ReliefLock/commit/40757c5) |
+| **Exportable PDF Reports** | NGOs & Donors | Added a 1-click "Export Report" generation tool for transparent donor updates. | [`f1d25c2`](https://github.com/chandrabl/ReliefLock/commit/f1d25c2) |
+| **Merchant Email Alerts** | Merchants | Added an automated email alert integration when a merchant is newly authorized. | [`ed39f2f`](https://github.com/chandrabl/ReliefLock/commit/ed39f2f) |
+
 ---
 
 ## 🏗 Architecture
