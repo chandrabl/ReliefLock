@@ -28,17 +28,27 @@ export default function Campaigns() {
       )}
 
       <div className="mt-8 grid gap-4 md:grid-cols-2">
-        {data?.items.map((c) => (
-          <VoucherStub
-            key={c._id}
-            campaignId={c.onChainId}
-            name={c.name}
-            status={c.status}
-            allocation={c.allocationPerBeneficiary}
-            token="USDC"
-            deadline={new Date(c.expiryTime).toLocaleDateString()}
-          />
-        ))}
+        {data?.items.map((c) => {
+          const dateObj = new Date(c.expiryTime);
+          const deadline = !isNaN(dateObj.getTime()) ? dateObj.toLocaleDateString() : 'Invalid Date';
+          
+          let allocString = String(c.allocationPerBeneficiary || 0);
+          try {
+             allocString = (BigInt(allocString) / 10000000n).toString();
+          } catch (e) {}
+
+          return (
+            <VoucherStub
+              key={c._id}
+              campaignId={c.onChainId}
+              name={c.name}
+              status={c.status}
+              allocation={allocString}
+              token="XLM"
+              deadline={deadline}
+            />
+          )
+        })}
       </div>
     </div>
   )
