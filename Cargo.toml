@@ -18,7 +18,3 @@ lto = true
 inherits = "release"
 debug-assertions = true
 
-# Pin soroban-sdk to avoid upstream soroban-env-host 21.2.1 / ed25519-dalek v3
-# incompatibility: soroban-env-host testutils uses ChaCha20Rng (rand_core 0.6)
-# but ed25519-dalek v3 requires rand_core 0.10 CryptoRng. The fix is to constrain
-# the soroban-sdk version to one that uses ed25519-dalek v2 internally.

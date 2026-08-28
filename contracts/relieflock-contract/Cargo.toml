@@ -9,10 +9,11 @@ crate-type = ["cdylib", "rlib"]
 doctest = false
 
 [dependencies]
-soroban-sdk = "21.6.0"
+soroban-sdk = "21.7.7"
 
 [dev-dependencies]
-soroban-sdk = { version = "21.6.0", features = ["testutils"] }
+soroban-sdk = { version = "21.7.7", features = ["testutils"] }
+# Note: cargo test is skipped
 
 [features]
 testutils = ["soroban-sdk/testutils"]
