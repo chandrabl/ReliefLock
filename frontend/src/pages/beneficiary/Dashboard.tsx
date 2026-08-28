@@ -18,6 +18,7 @@ export default function BeneficiaryDashboard() {
     queryFn: async () => {
       const res = await api.get('/applications')
       return res.data.items as Array<{
+        _id: string
         campaignOnChainId: number
         status: string
       }>
@@ -29,7 +30,6 @@ export default function BeneficiaryDashboard() {
   const { data: campaignsData, isLoading } = useCampaigns({ status: 'Active' })
 
   const [claimingId, setClaimingId] = useState<number | null>(null)
-  const [claimedIds, setClaimedIds] = useState<Set<number>>(new Set())
 
   async function handleClaim(campaignId: number) {
     setClaimingId(campaignId)
@@ -44,7 +44,11 @@ export default function BeneficiaryDashboard() {
         campaignOnChainId: campaignId,
         initiatorWallet: wallet.address,
       })
-      setClaimedIds((prev) => new Set(prev).add(campaignId))
+
+      const app = myApps?.find((a: any) => a.campaignOnChainId === campaignId)
+      if (app) {
+        await api.patch(`/applications/${app._id}/status`, { status: 'Claimed' })
+      }
       
       toast.success(
         <div>
@@ -61,6 +65,7 @@ export default function BeneficiaryDashboard() {
       )
       
       queryClient.invalidateQueries({ queryKey: ['campaigns'] })
+      queryClient.invalidateQueries({ queryKey: ['applications', user?.id] })
     } catch (err: any) {
       toast.error(err?.response?.data?.error || err.message || 'Claim failed. Please try again.')
     } finally {
@@ -78,6 +83,21 @@ export default function BeneficiaryDashboard() {
   }
 
   const approvedCount = myApps?.filter((a: any) => a.status === 'Approved').length || 0
+  const claimedCount = myApps?.filter((a: any) => a.status === 'Claimed').length || 0
+  
+  let totalReceived = 0
+  if (myApps && campaignsData?.items) {
+    myApps.forEach((app: any) => {
+      if (app.status === 'Claimed') {
+        const c = campaignsData.items.find((c: any) => c.onChainId === app.campaignOnChainId)
+        if (c) {
+          try {
+            totalReceived += Number(BigInt(c.allocationPerBeneficiary || 0) / 10000000n)
+          } catch (e) {}
+        }
+      }
+    })
+  }
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
@@ -90,9 +110,9 @@ export default function BeneficiaryDashboard() {
 
       <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
         <StatCard label="Eligible programs" value={approvedCount} />
-        <StatCard label="Claimed" value={claimedIds.size} accent="settled" />
-        <StatCard label="Pending Applications" value={myApps?.length ? myApps.length - approvedCount : 0} accent="voucher" />
-        <StatCard label="Total received" value="—" accent="aid" />
+        <StatCard label="Claimed" value={claimedCount} accent="settled" />
+        <StatCard label="Pending Applications" value={myApps?.length ? myApps.length - approvedCount - claimedCount : 0} accent="voucher" />
+        <StatCard label="Total received" value={`${totalReceived} XLM`} accent="aid" />
       </div>
 
       <h2 className="mt-12 font-display text-xl text-[var(--color-ink)]">My Aid Applications</h2>
@@ -131,7 +151,7 @@ export default function BeneficiaryDashboard() {
                     allocation={allocString}
                     token="XLM"
                     deadline={deadline}
-                    claimed={claimedIds.has(c.onChainId)}
+                    claimed={appStatus === 'Claimed'}
                     claiming={claimingId === c.onChainId}
                     onClaim={() => handleClaim(c.onChainId)}
                   />

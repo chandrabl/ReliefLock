@@ -4,7 +4,7 @@ export interface ApplicationDoc extends Document {
   campaignOnChainId: number;
   beneficiaryWallet: string;
   beneficiaryUserId: string; // The user id from the User collection
-  status: "Pending" | "Approved" | "Rejected";
+  status: "Pending" | "Approved" | "Rejected" | "Claimed";
   createdAt: Date;
   updatedAt: Date;
 }
@@ -14,7 +14,7 @@ const applicationSchema = new Schema<ApplicationDoc>(
     campaignOnChainId: { type: Number, required: true },
     beneficiaryWallet: { type: String, required: true },
     beneficiaryUserId: { type: String, required: true },
-    status: { type: String, enum: ["Pending", "Approved", "Rejected"], default: "Pending" },
+    status: { type: String, enum: ["Pending", "Approved", "Rejected", "Claimed"], default: "Pending" },
   },
   { timestamps: true },
 );
