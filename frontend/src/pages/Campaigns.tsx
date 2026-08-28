@@ -5,7 +5,7 @@ import { useCampaigns } from '@/lib/campaigns'
 import { useAuth } from '@/lib/auth'
 import { connectWallet } from '@/lib/wallet'
 import { api } from '@/lib/api'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 export default function Campaigns() {
   const { user } = useAuth()

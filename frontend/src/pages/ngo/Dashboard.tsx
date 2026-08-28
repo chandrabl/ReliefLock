@@ -14,7 +14,7 @@ export default function NgoDashboard() {
   const { data } = useCampaigns()
   const [showForm, setShowForm] = useState(false)
   const [fundingId, setFundingId] = useState<number | null>(null)
-  const [activeTab, setActiveTab] = useState<'campaigns' | 'applications'>('campaigns')
+  const [activeTab, setActiveTab] = useState<'campaigns' | 'applications' | 'merchants'>('campaigns')
 
   const { data: applications } = useQuery({
     queryKey: ['applications', 'ngo'],
@@ -38,14 +38,10 @@ export default function NgoDashboard() {
       const wallet = await connectWallet()
       if (!wallet.address) throw new Error('Connect your wallet first')
 
-      const { hash } = await contractCalls.invokeContract(
-        'add_beneficiary',
-        [
-          { type: 'address', value: wallet.address }, // NGO
-          { type: 'u64', value: app.campaignOnChainId },
-          { type: 'address', value: app.beneficiaryWallet },
-        ],
-        wallet.address
+      const { hash } = await contractCalls.addBeneficiary(
+        wallet.address, // NGO
+        app.campaignOnChainId,
+        app.beneficiaryWallet
       )
 
       await api.post('/transactions', {

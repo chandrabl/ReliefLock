@@ -183,4 +183,15 @@ export const contractCalls = {
       ],
       ngo,
     ),
+
+  addBeneficiary: (ngo: string, campaignId: number, beneficiary: string) =>
+    invokeContract(
+      'add_beneficiary',
+      [
+        { type: 'address', value: ngo },
+        { type: 'u64', value: campaignId },
+        { type: 'address', value: beneficiary },
+      ],
+      ngo,
+    ),
 }

@@ -6,7 +6,7 @@ import { useAuth } from '@/lib/auth'
 import { connectWallet } from '@/lib/wallet'
 import { contractCalls } from '@/lib/contract'
 import { api } from '@/lib/api'
-import { useQueryClient } from '@tanstack/react-query'
+import { useQueryClient, useQuery } from '@tanstack/react-query'
 
 export default function BeneficiaryDashboard() {
   const queryClient = useQueryClient()
@@ -70,14 +70,14 @@ export default function BeneficiaryDashboard() {
 
   // Filter active campaigns down to ONLY those the user has applied for
   const appliedCampaigns = campaignsData?.items.filter(c => 
-    myApps?.some(app => app.campaignOnChainId === c.onChainId)
+    myApps?.some((app: any) => app.campaignOnChainId === c.onChainId)
   ) || []
 
   const getAppStatus = (onChainId: number) => {
-    return myApps?.find(a => a.campaignOnChainId === onChainId)?.status || 'Pending'
+    return myApps?.find((a: any) => a.campaignOnChainId === onChainId)?.status || 'Pending'
   }
 
-  const approvedCount = myApps?.filter(a => a.status === 'Approved').length || 0
+  const approvedCount = myApps?.filter((a: any) => a.status === 'Approved').length || 0
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
