@@ -38,7 +38,21 @@ export default function NgoDashboard() {
       const wallet = await connectWallet()
       if (!wallet.address) throw new Error('Connect your wallet first')
 
-      const { hash } = await contractCalls.addBeneficiary(
+      toast.loading('Please sign to register beneficiary...', { id: 'approve-toast' })
+      try {
+        await contractCalls.registerBeneficiary(
+          wallet.address, // NGO
+          app.campaignOnChainId,
+          app.beneficiaryWallet
+        )
+      } catch (err: any) {
+        if (!err.message?.includes('BeneficiaryAlreadyRegistered')) {
+          throw err
+        }
+      }
+
+      toast.loading('Now sign to approve beneficiary...', { id: 'approve-toast' })
+      const { hash } = await contractCalls.approveBeneficiary(
         wallet.address, // NGO
         app.campaignOnChainId,
         app.beneficiaryWallet
@@ -52,7 +66,7 @@ export default function NgoDashboard() {
         counterpartyWallet: app.beneficiaryWallet,
       })
 
-      toast.success('Beneficiary approved on-chain!')
+      toast.success('Beneficiary approved on-chain!', { id: 'approve-toast' })
       queryClient.invalidateQueries({ queryKey: ['applications'] })
     } catch (err: any) {
       toast.error(err.message || 'Failed to approve beneficiary')
