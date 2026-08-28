@@ -101,12 +101,24 @@ export default function BeneficiaryDashboard() {
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
-      <h1 className="font-display text-3xl text-[var(--color-ink)]">
-        Welcome back{user ? `, ${user.fullName.split(' ')[0]}` : ''}
-      </h1>
-      <p className="mt-2 text-[var(--color-ink-soft)]">
-        Aid programs you're eligible for. Claiming pays out directly to your connected wallet.
-      </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="font-display text-3xl text-[var(--color-ink)]">
+            Welcome back{user ? `, ${user.fullName.split(' ')[0]}` : ''}
+          </h1>
+          <p className="mt-2 text-[var(--color-ink-soft)]">
+            Aid programs you're eligible for. Claiming pays out directly to your connected wallet.
+          </p>
+        </div>
+        <select
+          className="rounded-lg border border-[var(--color-line)] bg-white px-3 py-1.5 text-sm font-medium text-[var(--color-ink)] outline-none hover:border-[var(--color-ink)]"
+          defaultValue="en"
+        >
+          <option value="en">English</option>
+          <option value="hi">हिंदी (Hindi)</option>
+          <option value="es">Español (Spanish)</option>
+        </select>
+      </div>
 
       <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
         <StatCard label="Eligible programs" value={approvedCount} />
