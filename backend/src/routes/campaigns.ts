@@ -81,6 +81,7 @@ const updateMetaSchema = z.object({
   description: z.string().optional(),
   category: z.string().optional(),
   coverImageUrl: z.string().url().optional(),
+  status: z.string().optional(),
 });
 
 campaignsRouter.patch("/:onChainId", requireAuth, requireRole("ngo"), async (req, res, next) => {

@@ -106,6 +106,9 @@ export default function NgoDashboard() {
         initiatorWallet: wallet.address,
       })
 
+      // Force update the campaign status in DB immediately
+      await api.patch(`/campaigns/${campaignId}`, { status: 'Active' })
+
       toast.success(
         <div>
           Campaign funded successfully!{' '}
