@@ -46,7 +46,8 @@ export default function NgoDashboard() {
           app.beneficiaryWallet
         )
       } catch (err: any) {
-        if (!err.message?.includes('BeneficiaryAlreadyRegistered')) {
+        // Contract error 21 means BeneficiaryAlreadyRegistered
+        if (!err.message?.includes('#21')) {
           throw err
         }
       }
