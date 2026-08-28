@@ -71,29 +71,29 @@ All 11 onboarded users successfully executed smart contract transactions on the 
 
 | User ID | Name | Wallet Address | Transaction Link |
 |---|---|---|---|
-| 1 | Sunita Gupta | GAW2TZETZNJ6JRMJQNEXRCZ54Z2MRW7YKHGUB2FVYAJ7OEMMT42BLNPW | [`5ebc45e2...`](https://stellar.expert/explorer/testnet/tx/5ebc45e20b97844c05c0d5447eaa4f77e0ecb836928f6f967ece4d1ae4a2f8be) |
-| 2 | rakesh Sharma | GCOUPGWVYEAMS7FVURESK6KHZTQGQO3KA3IVX74E67YHX3GZEO3J5MVV | [`14758db0...`](https://stellar.expert/explorer/testnet/tx/14758db09f38c9121a2cdd1cf437cc96eaa229423135bac7836f2da4a8813747) |
-| 3 | Kavita Singh | GCDYFAPSJY7UPQMUHMY3A3R46NPRFJ6PU2XANEJW5G5TBWKZUF7PQR6G | [`74376f37...`](https://stellar.expert/explorer/testnet/tx/74376f376ddb0deb37b673ba0212d706d51322965518b120a2fca628cd4629c0) |
-| 4 | anil kumar | GA7LHICPUKJGIR5HP66GSTCHNRYRQP7ZGRLRAEBHMH56FUFW5IJJMJUZ | [`e5a40510...`](https://stellar.expert/explorer/testnet/tx/e5a40510ced6e8e2b4f68b017ef04b3f5f38446036fbdc5f5f0c3634dd32bc39) |
-| 5 | Deepak Verma | GASN5OGNFW3MMXINWBFUASII3CKY7PHHLTCQCE4TTVLICQOPIOOH6LUG | [`8d02fc63...`](https://stellar.expert/explorer/testnet/tx/8d02fc63277ddc895842b999a40df39a9549f3f2690443953e5641c058a86935) |
-| 6 | Pooja Chauhan | GCISIWC4GYU2ZN3C3ZC66R4XZEIGH7DF4M35CV5F6PWDNCJSLMD67Y3P | [`4a9a8019...`](https://stellar.expert/explorer/testnet/tx/4a9a8019b76075ec20b3384a2cb86a535c39ab99890952469890b76b5b52bea2) |
-| 7 | Sanjay rao | GDRO2RSFMSBVP2EEVKJFQ5CR43EPEOTCQTQFFA7UHINKFMN7F74ZYCTK | [`9515f4cd...`](https://stellar.expert/explorer/testnet/tx/9515f4cd4b6a9d106196df90d08ae10097ee30122875f4f7dda881f3afad9908) |
-| 8 | Anjali Sharma | GASDLRKAJHGHZI2RQJ6SDQYK4MJ7LYTVJY247SSM4NVQ5A6HSVB3EIEG | [`df5d035e...`](https://stellar.expert/explorer/testnet/tx/df5d035e910b1ebd938603985ed9654a2b1a3cc85a76456ecf4165646dc708d7) |
-| 9 | Suresh Patel | GBSPCD4PCFM2BP3WGFHF2XICLP5ADAQZHJPTG23DONUCNPOMBZYDLPF2 | [`9315e21b...`](https://stellar.expert/explorer/testnet/tx/9315e21b25fc55519dbbc0459e38024471d10e0a5d744bee72ee23536e1c0c1e) |
-| 10 | Khushi Singh | GARFFICGOH5BLSCQ6FRU5QG6KG3TZY5V5D6US4FO4TGPKAWOVLXGRG2C | [`0e6a625e...`](https://stellar.expert/explorer/testnet/tx/0e6a625e0204c49ed7e698c48e1115e6c32f1e9041cc88be681930c72235b813) |
-| 11 | Rahul Kumar | GAW2TZETZNJ6JRMJQNEXROVOMY22YPHJ5RSDXOWDE5M722K7V3LNPW2I | [`138dce11...`](https://stellar.expert/explorer/testnet/tx/138dce11121ac6d9b6c389ace01b7e2cb7e3d8950a280d17397780e9f971bc6e) |
+| 1 | Sunita Gupta | GAW2TZETZNJ6JRMJQNEXRCZ54Z2MRW7YKHGUB2FVYAJ7OEMMT42BLNPW | [`5ebc45e20b97844c05c0d5447eaa4f77e0ecb836928f6f967ece4d1ae4a2f8be`](https://stellar.expert/explorer/testnet/tx/5ebc45e20b97844c05c0d5447eaa4f77e0ecb836928f6f967ece4d1ae4a2f8be) |
+| 2 | rakesh Sharma | GCOUPGWVYEAMS7FVURESK6KHZTQGQO3KA3IVX74E67YHX3GZEO3J5MVV | [`14758db09f38c9121a2cdd1cf437cc96eaa229423135bac7836f2da4a8813747`](https://stellar.expert/explorer/testnet/tx/14758db09f38c9121a2cdd1cf437cc96eaa229423135bac7836f2da4a8813747) |
+| 3 | Kavita Singh | GCDYFAPSJY7UPQMUHMY3A3R46NPRFJ6PU2XANEJW5G5TBWKZUF7PQR6G | [`74376f376ddb0deb37b673ba0212d706d51322965518b120a2fca628cd4629c0`](https://stellar.expert/explorer/testnet/tx/74376f376ddb0deb37b673ba0212d706d51322965518b120a2fca628cd4629c0) |
+| 4 | anil kumar | GA7LHICPUKJGIR5HP66GSTCHNRYRQP7ZGRLRAEBHMH56FUFW5IJJMJUZ | [`e5a40510ced6e8e2b4f68b017ef04b3f5f38446036fbdc5f5f0c3634dd32bc39`](https://stellar.expert/explorer/testnet/tx/e5a40510ced6e8e2b4f68b017ef04b3f5f38446036fbdc5f5f0c3634dd32bc39) |
+| 5 | Deepak Verma | GASN5OGNFW3MMXINWBFUASII3CKY7PHHLTCQCE4TTVLICQOPIOOH6LUG | [`8d02fc63277ddc895842b999a40df39a9549f3f2690443953e5641c058a86935`](https://stellar.expert/explorer/testnet/tx/8d02fc63277ddc895842b999a40df39a9549f3f2690443953e5641c058a86935) |
+| 6 | Pooja Chauhan | GCISIWC4GYU2ZN3C3ZC66R4XZEIGH7DF4M35CV5F6PWDNCJSLMD67Y3P | [`4a9a8019b76075ec20b3384a2cb86a535c39ab99890952469890b76b5b52bea2`](https://stellar.expert/explorer/testnet/tx/4a9a8019b76075ec20b3384a2cb86a535c39ab99890952469890b76b5b52bea2) |
+| 7 | Sanjay rao | GDRO2RSFMSBVP2EEVKJFQ5CR43EPEOTCQTQFFA7UHINKFMN7F74ZYCTK | [`9515f4cd4b6a9d106196df90d08ae10097ee30122875f4f7dda881f3afad9908`](https://stellar.expert/explorer/testnet/tx/9515f4cd4b6a9d106196df90d08ae10097ee30122875f4f7dda881f3afad9908) |
+| 8 | Anjali Sharma | GASDLRKAJHGHZI2RQJ6SDQYK4MJ7LYTVJY247SSM4NVQ5A6HSVB3EIEG | [`df5d035e910b1ebd938603985ed9654a2b1a3cc85a76456ecf4165646dc708d7`](https://stellar.expert/explorer/testnet/tx/df5d035e910b1ebd938603985ed9654a2b1a3cc85a76456ecf4165646dc708d7) |
+| 9 | Suresh Patel | GBSPCD4PCFM2BP3WGFHF2XICLP5ADAQZHJPTG23DONUCNPOMBZYDLPF2 | [`9315e21b25fc55519dbbc0459e38024471d10e0a5d744bee72ee23536e1c0c1e`](https://stellar.expert/explorer/testnet/tx/9315e21b25fc55519dbbc0459e38024471d10e0a5d744bee72ee23536e1c0c1e) |
+| 10 | Khushi Singh | GARFFICGOH5BLSCQ6FRU5QG6KG3TZY5V5D6US4FO4TGPKAWOVLXGRG2C | [`0e6a625e0204c49ed7e698c48e1115e6c32f1e9041cc88be681930c72235b813`](https://stellar.expert/explorer/testnet/tx/0e6a625e0204c49ed7e698c48e1115e6c32f1e9041cc88be681930c72235b813) |
+| 11 | Rahul Kumar | GAW2TZETZNJ6JRMJQNEXROVOMY22YPHJ5RSDXOWDE5M722K7V3LNPW2I | [`138dce11121ac6d9b6c389ace01b7e2cb7e3d8950a280d17397780e9f971bc6e`](https://stellar.expert/explorer/testnet/tx/138dce11121ac6d9b6c389ace01b7e2cb7e3d8950a280d17397780e9f971bc6e) |
 
 ### 3. Continuous Improvements & Feature Iteration
 
 Based on the feedback collected from our test users, we immediately iterated and deployed the following highly requested features during the hackathon:
 
-| Feature Implemented | Target User Group | Addressed Feedback | Implementation Commit |
-|---|---|---|---|
-| **USDC Stablecoin Option** | NGOs & Beneficiaries | Included a stablecoin option to protect aid value against crypto volatility. | [`a3ef751`](https://github.com/chandrabl/ReliefLock/commit/a3ef751) |
-| **Merchant QR Scanner** | Merchants | Integrated a QR scanner button in the merchant dashboard for instant voucher redemption. | [`876c066`](https://github.com/chandrabl/ReliefLock/commit/876c066) |
-| **Multi-Language Support** | Beneficiaries | Added a language toggle (English/Hindi/Spanish) for better accessibility in rural areas. | [`40757c5`](https://github.com/chandrabl/ReliefLock/commit/40757c5) |
-| **Exportable PDF Reports** | NGOs & Donors | Added a 1-click "Export Report" generation tool for transparent donor updates. | [`f1d25c2`](https://github.com/chandrabl/ReliefLock/commit/f1d25c2) |
-| **Merchant Email Alerts** | Merchants | Added an automated email alert integration when a merchant is newly authorized. | [`ed39f2f`](https://github.com/chandrabl/ReliefLock/commit/ed39f2f) |
+| User ID | Name | Feature Implemented | Target User Group | Addressed Feedback | Implementation Commit |
+|---|---|---|---|---|---|
+| 5 | Deepak Verma | **USDC Stablecoin Option** | NGOs & Beneficiaries | Included a stablecoin option to protect aid value against crypto volatility. | [`a3ef751`](https://github.com/chandrabl/ReliefLock/commit/a3ef751) |
+| 11 | Rahul Kumar | **Merchant QR Scanner** | Merchants | Integrated a QR scanner button in the merchant dashboard for instant voucher redemption. | [`876c066`](https://github.com/chandrabl/ReliefLock/commit/876c066) |
+| 8 | Anjali Sharma | **Multi-Language Support** | Beneficiaries | Added a language toggle (English/Hindi/Spanish) for better accessibility in rural areas. | [`40757c5`](https://github.com/chandrabl/ReliefLock/commit/40757c5) |
+| 6 | Pooja Chauhan | **Exportable PDF Reports** | NGOs & Donors | Added a 1-click "Export Report" generation tool for transparent donor updates. | [`f1d25c2`](https://github.com/chandrabl/ReliefLock/commit/f1d25c2) |
+| 9 | Suresh Patel | **Merchant Email Alerts** | Merchants | Added an automated email alert integration when a merchant is newly authorized. | [`ed39f2f`](https://github.com/chandrabl/ReliefLock/commit/ed39f2f) |
 
 ---
 
