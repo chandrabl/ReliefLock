@@ -12,6 +12,9 @@ export interface VoucherStubProps {
   claiming?: boolean
   onFund?: () => void
   funding?: boolean
+  onApply?: () => void
+  applying?: boolean
+  applied?: boolean
 }
 
 const statusColor: Record<VoucherStubProps['status'], string> = {
@@ -42,6 +45,9 @@ export function VoucherStub({
   claiming,
   onFund,
   funding,
+  onApply,
+  applying,
+  applied,
 }: VoucherStubProps) {
   return (
     <motion.div
@@ -86,6 +92,15 @@ export function VoucherStub({
                 className="rounded-full bg-[var(--color-ink)] px-4 py-2 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {funding ? 'Funding…' : 'Fund Campaign'}
+              </button>
+            )}
+            {onApply && status === 'Active' && (
+              <button
+                onClick={onApply}
+                disabled={applied || applying}
+                className="rounded-full bg-[var(--color-signal)] px-4 py-2 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                {applied ? 'Applied' : applying ? 'Applying…' : 'Apply for Aid'}
               </button>
             )}
             {onClaim && (

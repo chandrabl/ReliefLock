@@ -161,4 +161,26 @@ export const contractCalls = {
       ],
       ngo,
     ),
+
+  authorizeMerchant: (ngo: string, campaignId: number, merchant: string) =>
+    invokeContract(
+      'authorize_merchant',
+      [
+        { type: 'address', value: ngo },
+        { type: 'u64', value: campaignId },
+        { type: 'address', value: merchant },
+      ],
+      ngo,
+    ),
+
+  issueVoucher: (ngo: string, campaignId: number, beneficiary: string) =>
+    invokeContract(
+      'issue_voucher',
+      [
+        { type: 'address', value: ngo },
+        { type: 'u64', value: campaignId },
+        { type: 'address', value: beneficiary },
+      ],
+      ngo,
+    ),
 }

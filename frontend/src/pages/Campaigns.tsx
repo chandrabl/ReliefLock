@@ -1,8 +1,58 @@
+import { useState } from 'react'
+import { toast } from 'sonner'
 import { VoucherStub } from '@/components/VoucherStub'
 import { useCampaigns } from '@/lib/campaigns'
+import { useAuth } from '@/lib/auth'
+import { connectWallet } from '@/lib/wallet'
+import { api } from '@/lib/api'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 
 export default function Campaigns() {
+  const { user } = useAuth()
   const { data, isLoading, isError } = useCampaigns()
+  const queryClient = useQueryClient()
+  const [applyingId, setApplyingId] = useState<number | null>(null)
+
+  // Fetch user's existing applications
+  const { data: myApps } = useQuery({
+    queryKey: ['applications', user?.id],
+    queryFn: async () => {
+      const res = await api.get('/applications')
+      return res.data.items as Array<{ campaignOnChainId: number }>
+    },
+    enabled: user?.role === 'beneficiary',
+  })
+
+  const appliedIds = new Set(myApps?.map((a) => a.campaignOnChainId) ?? [])
+
+  async function handleApply(campaignId: number) {
+    if (!user) {
+      toast.error('You must be logged in as a beneficiary to apply')
+      return
+    }
+    if (user.role !== 'beneficiary') {
+      toast.error('Only beneficiaries can apply for aid')
+      return
+    }
+
+    setApplyingId(campaignId)
+    try {
+      const wallet = await connectWallet()
+      if (!wallet.address) throw new Error('Connect your wallet first')
+
+      await api.post('/applications', {
+        campaignOnChainId: campaignId,
+        beneficiaryWallet: wallet.address,
+      })
+
+      toast.success('Application submitted successfully!')
+      queryClient.invalidateQueries({ queryKey: ['applications'] })
+    } catch (err: any) {
+      toast.error(err?.response?.data?.error || err.message || 'Failed to apply')
+    } finally {
+      setApplyingId(null)
+    }
+  }
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
@@ -46,6 +96,9 @@ export default function Campaigns() {
               allocation={allocString}
               token="XLM"
               deadline={deadline}
+              onApply={() => handleApply(c.onChainId)}
+              applying={applyingId === c.onChainId}
+              applied={appliedIds.has(c.onChainId)}
             />
           )
         })}

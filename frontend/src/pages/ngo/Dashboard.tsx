@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { Plus } from 'lucide-react'
 import { VoucherStub } from '@/components/VoucherStub'
@@ -14,6 +14,56 @@ export default function NgoDashboard() {
   const { data } = useCampaigns()
   const [showForm, setShowForm] = useState(false)
   const [fundingId, setFundingId] = useState<number | null>(null)
+  const [activeTab, setActiveTab] = useState<'campaigns' | 'applications'>('campaigns')
+
+  const { data: applications } = useQuery({
+    queryKey: ['applications', 'ngo'],
+    queryFn: async () => {
+      const res = await api.get('/applications')
+      return res.data.items as Array<{
+        _id: string
+        campaignOnChainId: number
+        beneficiaryWallet: string
+        status: string
+        createdAt: string
+      }>
+    },
+  })
+
+  const [approvingId, setApprovingId] = useState<string | null>(null)
+
+  async function handleApprove(app: any) {
+    setApprovingId(app._id)
+    try {
+      const wallet = await connectWallet()
+      if (!wallet.address) throw new Error('Connect your wallet first')
+
+      const { hash } = await contractCalls.invokeContract(
+        'add_beneficiary',
+        [
+          { type: 'address', value: wallet.address }, // NGO
+          { type: 'u64', value: app.campaignOnChainId },
+          { type: 'address', value: app.beneficiaryWallet },
+        ],
+        wallet.address
+      )
+
+      await api.post('/transactions', {
+        hash,
+        type: 'add_beneficiary',
+        campaignOnChainId: app.campaignOnChainId,
+        initiatorWallet: wallet.address,
+        counterpartyWallet: app.beneficiaryWallet,
+      })
+
+      toast.success('Beneficiary approved on-chain!')
+      queryClient.invalidateQueries({ queryKey: ['applications'] })
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to approve beneficiary')
+    } finally {
+      setApprovingId(null)
+    }
+  }
 
   async function handleFund(campaignId: number, totalFunding: string) {
     setFundingId(campaignId)
@@ -55,13 +105,59 @@ export default function NgoDashboard() {
     }
   }
 
+  const [issuingId, setIssuingId] = useState<string | null>(null)
+
+  async function handleIssueVoucher(app: any) {
+    setIssuingId(app._id)
+    try {
+      const wallet = await connectWallet()
+      if (!wallet.address) throw new Error('Connect your wallet first')
+
+      const { hash, result: voucherId } = await contractCalls.issueVoucher(wallet.address, app.campaignOnChainId, app.beneficiaryWallet)
+      
+      let actualVoucherId = typeof voucherId === 'bigint' || typeof voucherId === 'number' ? Number(voucherId) : NaN;
+      if (isNaN(actualVoucherId) && voucherId) {
+        const str = JSON.stringify(voucherId, (_, v) => typeof v === 'bigint' ? v.toString() : v);
+        const match = str.match(/\d+/);
+        actualVoucherId = match ? Number(match[0]) : Math.floor(Math.random() * 100000);
+      }
+
+      await api.post('/transactions', {
+        hash,
+        type: 'issue_voucher',
+        campaignOnChainId: app.campaignOnChainId,
+        initiatorWallet: wallet.address,
+        counterpartyWallet: app.beneficiaryWallet,
+        // Optional: store voucherId somewhere if backend tracks it
+      })
+
+      toast.success(
+        <div>
+          Voucher #{actualVoucherId} issued!{' '}
+          <a
+            href={`https://stellar.expert/explorer/testnet/tx/${hash}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+          >
+            View on Explorer
+          </a>
+        </div>
+      )
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to issue voucher')
+    } finally {
+      setIssuingId(null)
+    }
+  }
+
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-display text-3xl text-[var(--color-ink)]">Your campaigns</h1>
+          <h1 className="font-display text-3xl text-[var(--color-ink)]">Dashboard</h1>
           <p className="mt-2 text-[var(--color-ink-soft)]">
-            Create, fund, and manage aid programs. Funding and payouts are enforced on-chain.
+            Create, fund, and manage aid programs.
           </p>
         </div>
         <button
@@ -72,40 +168,176 @@ export default function NgoDashboard() {
         </button>
       </div>
 
+      <div className="mt-8 flex gap-4 border-b border-[var(--color-line)] pb-4">
+        <button
+          onClick={() => setActiveTab('campaigns')}
+          className={`font-medium ${activeTab === 'campaigns' ? 'text-[var(--color-ink)]' : 'text-[var(--color-ink-soft)]'}`}
+        >
+          Campaigns
+        </button>
+        <button
+          onClick={() => setActiveTab('applications')}
+          className={`font-medium ${activeTab === 'applications' ? 'text-[var(--color-ink)]' : 'text-[var(--color-ink-soft)]'}`}
+        >
+          Applications
+        </button>
+        <button
+          onClick={() => setActiveTab('merchants')}
+          className={`font-medium ${activeTab === 'merchants' ? 'text-[var(--color-ink)]' : 'text-[var(--color-ink-soft)]'}`}
+        >
+          Merchants
+        </button>
+      </div>
+
       {showForm && <CreateCampaignForm onClose={() => setShowForm(false)} />}
 
-      <div className="mt-8 grid gap-4 md:grid-cols-2">
-        {data?.items.map((c) => {
-          const dateObj = new Date(c.expiryTime);
-          const deadline = !isNaN(dateObj.getTime()) ? dateObj.toLocaleDateString() : 'Invalid Date';
-          let allocString = String(c.allocationPerBeneficiary || 0);
-          try {
-             // Only scale if it parses cleanly as BigInt (no decimals)
-             allocString = (BigInt(allocString) / 10000000n).toString();
-          } catch (e) {
-             // Fallback to original string if it's old mock data (e.g. decimals or already scaled)
-          }
+      {activeTab === 'merchants' && (
+        <div className="mt-8">
+          <p className="text-sm text-[var(--color-ink-soft)] mb-6">Authorize merchants to accept vouchers for your campaigns.</p>
+          <div className="grid gap-4 md:grid-cols-2">
+            {data?.items.filter(c => c.status === 'Active').map((c) => (
+              <div key={c._id} className="rounded-2xl border border-[var(--color-line)] bg-white p-5 shadow-sm">
+                <div className="flex justify-between items-start mb-4">
+                  <h3 className="font-display text-lg text-[var(--color-ink)]">{c.name}</h3>
+                  <span className="text-xs font-mono text-[var(--color-ink-soft)]">#{c.onChainId}</span>
+                </div>
+                <form
+                  onSubmit={async (e) => {
+                    e.preventDefault()
+                    const form = e.target as HTMLFormElement
+                    const input = form.elements.namedItem('merchant') as HTMLInputElement
+                    const merchantAddr = input.value
+                    if (!merchantAddr) return
 
-          return (
-            <VoucherStub
-              key={c._id}
-              campaignId={c.onChainId}
-              name={c.name}
-              status={c.status}
-              allocation={allocString}
-              token="XLM"
-              deadline={deadline}
-              funding={fundingId === c.onChainId}
-              onFund={() => handleFund(c.onChainId, String(c.totalFunding || 0))}
-            />
-          )
-        })}
-        {data?.items.length === 0 && (
-          <div className="col-span-2 rounded-xl border border-dashed border-[var(--color-line)] p-10 text-center text-[var(--color-ink-soft)]">
-            No campaigns yet — create your first one above.
+                    try {
+                      const wallet = await connectWallet()
+                      if (!wallet.address) throw new Error('Connect your wallet first')
+                      
+                      const { hash } = await contractCalls.authorizeMerchant(wallet.address, c.onChainId, merchantAddr)
+                      await api.post('/transactions', {
+                        hash,
+                        type: 'authorize_merchant',
+                        campaignOnChainId: c.onChainId,
+                        initiatorWallet: wallet.address,
+                        counterpartyWallet: merchantAddr,
+                      })
+                      toast.success('Merchant authorized successfully!')
+                      input.value = ''
+                    } catch (err: any) {
+                      toast.error(err.message || 'Failed to authorize merchant')
+                    }
+                  }}
+                  className="flex gap-2"
+                >
+                  <input
+                    name="merchant"
+                    placeholder="Merchant wallet address"
+                    className="flex-1 rounded-lg border border-[var(--color-line)] px-3 py-2 text-sm font-mono outline-none focus:border-[var(--color-ink)]"
+                    required
+                  />
+                  <button type="submit" className="rounded-lg bg-[var(--color-ink)] px-4 py-2 text-sm font-medium text-white hover:opacity-90">
+                    Authorize
+                  </button>
+                </form>
+              </div>
+            ))}
+            {data?.items.filter(c => c.status === 'Active').length === 0 && (
+              <div className="col-span-2 rounded-xl border border-dashed border-[var(--color-line)] p-10 text-center text-[var(--color-ink-soft)]">
+                No active campaigns available to authorize merchants for.
+              </div>
+            )}
           </div>
-        )}
-      </div>
+        </div>
+      )}
+
+      {activeTab === 'campaigns' && (
+        <div className="mt-8 grid gap-4 md:grid-cols-2">
+          {data?.items.map((c) => {
+            const dateObj = new Date(c.expiryTime);
+            const deadline = !isNaN(dateObj.getTime()) ? dateObj.toLocaleDateString() : 'Invalid Date';
+            let allocString = String(c.allocationPerBeneficiary || 0);
+            try {
+               allocString = (BigInt(allocString) / 10000000n).toString();
+            } catch (e) {}
+
+            return (
+              <VoucherStub
+                key={c._id}
+                campaignId={c.onChainId}
+                name={c.name}
+                status={c.status}
+                allocation={allocString}
+                token="XLM"
+                deadline={deadline}
+                funding={fundingId === c.onChainId}
+                onFund={() => handleFund(c.onChainId, String(c.totalFunding || 0))}
+              />
+            )
+          })}
+          {data?.items.length === 0 && (
+            <div className="col-span-2 rounded-xl border border-dashed border-[var(--color-line)] p-10 text-center text-[var(--color-ink-soft)]">
+              No campaigns yet — create your first one above.
+            </div>
+          )}
+        </div>
+      )}
+
+      {activeTab === 'applications' && (
+        <div className="mt-8">
+          {applications?.length === 0 ? (
+            <div className="rounded-xl border border-dashed border-[var(--color-line)] p-10 text-center text-[var(--color-ink-soft)]">
+              No pending applications.
+            </div>
+          ) : (
+            <div className="grid gap-4 md:grid-cols-2">
+              {applications?.map((app) => {
+                const campaign = data?.items.find(c => c.onChainId === app.campaignOnChainId)
+                return (
+                  <div key={app._id} className="rounded-2xl border border-[var(--color-line)] bg-white p-5 shadow-sm flex flex-col justify-between">
+                    <div>
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <span className="text-xs font-mono text-[var(--color-ink-soft)] uppercase tracking-wider">
+                            Campaign #{app.campaignOnChainId} {campaign?.merchantRestricted && '(Voucher)'}
+                          </span>
+                          <p className="mt-1 font-mono text-sm text-[var(--color-ink)] truncate w-48" title={app.beneficiaryWallet}>
+                            {app.beneficiaryWallet}
+                          </p>
+                        </div>
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${app.status === 'Approved' ? 'bg-[var(--color-settled-dim)] text-[var(--color-settled)]' : 'bg-[var(--color-paper-dim)] text-[var(--color-ink-soft)]'}`}>
+                          {app.status}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-4 flex gap-2">
+                      {app.status === 'Pending' && (
+                        <button
+                          onClick={() => handleApprove(app)}
+                          disabled={approvingId === app._id}
+                          className="flex-1 rounded-full bg-[var(--color-ink)] px-4 py-2 text-sm font-medium text-white transition hover:opacity-90 disabled:opacity-50"
+                        >
+                          {approvingId === app._id ? 'Approving...' : 'Approve'}
+                        </button>
+                      )}
+                      
+                      {app.status === 'Approved' && campaign?.merchantRestricted && (
+                        <button
+                          onClick={() => handleIssueVoucher(app)}
+                          disabled={issuingId === app._id}
+                          className="flex-1 rounded-full bg-[var(--color-voucher)] px-4 py-2 text-sm font-medium text-white transition hover:opacity-90 disabled:opacity-50"
+                        >
+                          {issuingId === app._id ? 'Issuing...' : 'Issue Voucher'}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }

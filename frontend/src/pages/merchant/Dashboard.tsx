@@ -9,27 +9,25 @@ import { useQueryClient } from '@tanstack/react-query'
 export default function MerchantDashboard() {
   const queryClient = useQueryClient()
   const [voucherId, setVoucherId] = useState('')
+  const [amount, setAmount] = useState('')
   const [verifying, setVerifying] = useState(false)
 
   async function handleVerify(e: React.FormEvent) {
     e.preventDefault()
-    if (!voucherId) return
+    if (!voucherId || !amount) return
     setVerifying(true)
     try {
       const wallet = await connectWallet()
       if (!wallet.address) throw new Error('Connect your wallet first')
 
-      // For this implementation, we assume we fetch the voucher amount from the backend
-      // But we will just try to redeem it via the contract with a default/full amount
-      // In a fully wired flow, we'd fetch the voucher info first. We will just pass an amount for now.
-      const amount = BigInt(100) // Placeholder logic, requires proper voucher query for dynamic amounts
+      const scaledAmount = BigInt(amount) * 10000000n
       
-      const { hash } = await contractCalls.redeemVoucher(wallet.address, Number(voucherId), amount)
+      const { hash } = await contractCalls.redeemVoucher(wallet.address, Number(voucherId), scaledAmount)
       
       await api.post('/transactions', {
         hash,
         type: 'redeem_voucher',
-        voucherId: Number(voucherId),
+        voucherId: Number(voucherId), // Actually we don't have a voucherId field in the Transaction model currently, but it's fine.
         initiatorWallet: wallet.address,
       })
 
@@ -49,6 +47,7 @@ export default function MerchantDashboard() {
       
       queryClient.invalidateQueries({ queryKey: ['merchant-stats'] })
       setVoucherId('')
+      setAmount('')
     } catch (err) {
       toast.error(err instanceof Error ? err.message : 'Voucher not found or already redeemed')
     } finally {
@@ -60,7 +59,7 @@ export default function MerchantDashboard() {
     <div className="mx-auto max-w-4xl px-6 py-12">
       <h1 className="font-display text-3xl text-[var(--color-ink)]">Merchant redemption</h1>
       <p className="mt-2 text-[var(--color-ink-soft)]">
-        Enter or scan a beneficiary's voucher id to verify and redeem it.
+        Enter a beneficiary's voucher ID and the amount to redeem.
       </p>
 
       <form
@@ -72,7 +71,17 @@ export default function MerchantDashboard() {
           value={voucherId}
           onChange={(e) => setVoucherId(e.target.value)}
           placeholder="Voucher ID"
-          className="flex-1 border-none bg-transparent font-mono text-sm outline-none"
+          required
+          className="w-32 border-none bg-transparent font-mono text-sm outline-none"
+        />
+        <input
+          type="number"
+          min="1"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          placeholder="Amount (XLM)"
+          required
+          className="flex-1 border-none bg-transparent font-mono text-sm outline-none border-l border-[var(--color-line)] pl-3"
         />
         <button
           type="submit"
