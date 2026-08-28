@@ -7,7 +7,7 @@ ReliefLock is a production-ready programmable humanitarian aid distribution plat
 - **Demo Video**: [Watch Demo](https://drive.google.com/file/d/11UibQsRJK1bMWYNMFK66eGN_a14YvBdJ/view?usp=sharing)
 - **Example Transaction Hash**: [`e5e5b5453ca472a8ef17cc0730d5af45518686305508a424712cfe990731e1fc`](https://stellar.expert/explorer/testnet/tx/e5e5b5453ca472a8ef17cc0730d5af45518686305508a424712cfe990731e1fc)
 - **ReliefLock Contract ID**: `CBGVHVHLAWWYKHRTGJY7N7BGNJBQKCGA4ETOJ4U57HUXFVE5QNXFYVN3`
-- **User Onboarding Data (11 Users)**: [View Exported CSV Sheet Here](backend/wallets_transactions.csv)
+- **User Onboarding Data (11 Users)**: View Onboarding Data (Available upon request)
 - **Google Form Link**: [Feedback Form](https://docs.google.com/forms/d/e/1FAIpQLSeoXc5BGenr3DJ8m7D6SpEzbsdwcuKpwbqfERm-F7l7kwAr2A/viewform?usp=dialog)
 
 ## 🌟 Key Features
@@ -49,7 +49,7 @@ ReliefLock is a production-ready programmable humanitarian aid distribution plat
 
 ## 👥 User Onboarding
 
-We successfully onboarded **11 real users** with Stellar Testnet wallets and verified on-chain transactions to initialize, fund campaigns, and claim aid. You can view the full exported CSV sheet containing all wallets and their transaction links in the `backend/wallets_transactions.csv` file, or via the link in the "Live Demo & Links" section above.
+We successfully onboarded **11 real users** with Stellar Testnet wallets and verified on-chain transactions to initialize, fund campaigns, and claim aid. You can view the wallets and their transaction links in the table below.
 
 ### 1. Users Onboarded (11 Users)
 
