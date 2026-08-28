@@ -378,6 +378,7 @@ function CreateCampaignForm({ onClose }: { onClose: () => void }) {
     maxClaimsPerBeneficiary: '1',
     durationDays: '30',
     merchantRestricted: false,
+    token: 'XLM',
   })
 
   const mutation = useMutation({
@@ -389,8 +390,10 @@ function CreateCampaignForm({ onClose }: { onClose: () => void }) {
       const startTime = Math.floor(now.getTime() / 1000)
       const expiryTime = startTime + Number(form.durationDays) * 86400
 
-      // Native XLM token address on Testnet
-      const tokenAddress = 'CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC'
+      // Native XLM token address on Testnet or placeholder USDC
+      const tokenAddress = form.token === 'XLM' 
+        ? 'CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC'
+        : 'CCW67TSZV3FE2V7MAO6N43OJDQ2A24V77QFW2UKO4ND53AOWH563YVTC'
 
       const scaledTotal = BigInt(form.totalFunding) * 10000000n
       const scaledAlloc = BigInt(form.allocationPerBeneficiary) * 10000000n
@@ -488,7 +491,17 @@ function CreateCampaignForm({ onClose }: { onClose: () => void }) {
           onChange={(e) => setForm({ ...form, description: e.target.value })}
         />
       </Field>
-      <Field label="Total funding (XLM)">
+      <Field label="Token">
+        <select
+          className="input"
+          value={form.token}
+          onChange={(e) => setForm({ ...form, token: e.target.value })}
+        >
+          <option value="XLM">Stellar Lumens (XLM)</option>
+          <option value="USDC">USD Coin (USDC)</option>
+        </select>
+      </Field>
+      <Field label="Total funding">
         <input
           type="number"
           min={1}
@@ -497,7 +510,7 @@ function CreateCampaignForm({ onClose }: { onClose: () => void }) {
           onChange={(e) => setForm({ ...form, totalFunding: e.target.value })}
         />
       </Field>
-      <Field label="Allocation per beneficiary (XLM)">
+      <Field label="Allocation per beneficiary">
         <input
           type="number"
           min={1}
