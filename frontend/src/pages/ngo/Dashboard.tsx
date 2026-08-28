@@ -68,6 +68,14 @@ export default function NgoDashboard() {
       })
 
       toast.success('Beneficiary approved on-chain!', { id: 'approve-toast' })
+      
+      // Optimistically update the UI so it doesn't show "Pending" until the next refresh
+      queryClient.setQueryData(['applications', 'ngo'], (old: any) => {
+        if (!old) return old
+        return old.map((a: any) => 
+          a._id === app._id ? { ...a, status: 'Approved' } : a
+        )
+      })
       queryClient.invalidateQueries({ queryKey: ['applications'] })
     } catch (err: any) {
       toast.error(err.message || 'Failed to approve beneficiary')
