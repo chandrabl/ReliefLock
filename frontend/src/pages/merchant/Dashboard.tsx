@@ -66,7 +66,15 @@ export default function MerchantDashboard() {
         onSubmit={handleVerify}
         className="mt-8 flex items-center gap-3 rounded-2xl border border-[var(--color-line)] bg-white p-4"
       >
-        <ScanLine className="h-5 w-5 text-[var(--color-ink-soft)]" />
+        <button
+          type="button"
+          onClick={() => toast.info('QR Scanner would open here!')}
+          className="flex items-center gap-2 text-sm text-[var(--color-ink-soft)] hover:text-[var(--color-ink)]"
+        >
+          <ScanLine className="h-5 w-5" />
+          Scan QR
+        </button>
+        <div className="h-6 w-px bg-[var(--color-line)]"></div>
         <input
           value={voucherId}
           onChange={(e) => setVoucherId(e.target.value)}
