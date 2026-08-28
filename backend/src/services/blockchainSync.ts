@@ -76,6 +76,19 @@ export class BlockchainSyncService {
           tx.confirmedAt = new Date();
           tx.ledgerSequence = result.ledger;
           await tx.save();
+
+          if (
+            tx.type === "add_beneficiary" &&
+            tx.campaignOnChainId != null &&
+            tx.counterpartyWallet != null
+          ) {
+            const { Application } = await import("../models/Application.js");
+            await Application.findOneAndUpdate(
+              { campaignOnChainId: tx.campaignOnChainId, beneficiaryWallet: tx.counterpartyWallet },
+              { $set: { status: "Approved" } }
+            );
+          }
+
           if (tx.campaignOnChainId != null) {
             await this.refreshCampaign(tx.campaignOnChainId);
           }

@@ -4,6 +4,8 @@ export const TX_STATUSES = ["pending", "confirmed", "failed", "expired"] as cons
 export const TX_TYPES = [
   "create_campaign",
   "fund_campaign",
+  "add_beneficiary",
+  "authorize_merchant",
   "claim_aid",
   "issue_voucher",
   "redeem_voucher",

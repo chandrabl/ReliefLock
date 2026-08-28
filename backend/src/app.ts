@@ -10,6 +10,7 @@ import { authRouter } from "./routes/auth.js";
 import { campaignsRouter } from "./routes/campaigns.js";
 import { transactionsRouter } from "./routes/transactions.js";
 import { feedbackRouter } from "./routes/feedback.js";
+import { applicationsRouter } from "./routes/applications.js";
 
 export function createApp(): Express {
   const app = express();
@@ -35,6 +36,7 @@ export function createApp(): Express {
   app.use("/api/campaigns", campaignsRouter);
   app.use("/api/transactions", transactionsRouter);
   app.use("/api/feedback", feedbackRouter);
+  app.use("/api/applications", applicationsRouter);
 
   app.use(notFoundHandler);
   app.use(errorHandler);
