@@ -2,7 +2,7 @@
 
 We successfully onboarded 11 real users with Stellar Testnet wallets and verified on-chain transactions to initialize, fund campaigns, and claim aid. Here is a summary of the feedback collected via our Google Form.
 
-| User ID | Name | Email | Wallet Address | Feedback & Suggestions |
+| User ID | Name | Email | Wallet Address | Feedback Summary |
 |---|---|---|---|---|
 | 1 | Anil Kumar | anilkumar981@gmail.com | GA7LHICPUKJGIR5HP66GSTCHNRYRQP7ZGRLRAEBHMH56FUFW5IJJMJUZ | The platform's UI is incredibly intuitive. I love the torn voucher stub design! Suggestion: Add SMS notifications when an NGO approves an application. |
 | 2 | Sunita Gupta | sunitagupta2204@gmail.com | GAW2TZETZNJ6JRMJQNEXRCZ54Z2MRW7YKHGUB2FVYAJ7OEMMT42BLNPW | Claiming XLM directly to my Freighter wallet was seamless and extremely fast. This is exactly what decentralized aid needs. |

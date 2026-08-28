@@ -3,12 +3,12 @@
 ReliefLock is a production-ready programmable humanitarian aid distribution platform built on Stellar (Soroban). It solves the chronic issue of aid leakage and centralized delays by letting NGOs create campaigns with on-chain enforced rules—allocation per beneficiary, claim windows, and merchant-only redemption—while empowering beneficiaries to claim aid directly to their Stellar wallets, without intermediaries.
 
 ## 🔗 Live Demo & Links
-- **Live Platform**: [https://relief-lock.vercel.app](https://relief-lock.vercel.app)
-- **Demo Video**: [Watch Demo](https://drive.google.com/file/d/11UibQsRJK1bMWYNMFK66eGN_a14YvBdJ/view?usp=sharing)
-- **Example Transaction Hash**: [`74376f376ddb0deb37b673ba0212d706d51322965518b120a2fca628cd4629c0`](https://stellar.expert/explorer/testnet/tx/74376f376ddb0deb37b673ba0212d706d51322965518b120a2fca628cd4629c0)
-- **ReliefLock Contract ID**: `CBGVHVHLAWWYKHRTGJY7N7BGNJBQKCGA4ETOJ4U57HUXFVE5QNXFYVN3`
-- **User Onboarding Data (11 Users)**: [View Exported CSV Sheet Here](https://docs.google.com/spreadsheets/d/1BlfDUX3k-ZgwfFF6wD24TQM0iMxORRYc5NLTxTbS_ls/edit?usp=sharing)
-- **Google Form Link**: [Feedback Form](https://docs.google.com/forms/d/e/1FAIpQLSeoXc5BGenr3DJ8m7D6SpEzbsdwcuKpwbqfERm-F7l7kwAr2A/viewform?usp=dialog)
+- 🌐 **Live Platform**: [https://relief-lock.vercel.app](https://relief-lock.vercel.app)
+- 🎥 **Demo Video**: [Watch Demo](https://drive.google.com/file/d/11UibQsRJK1bMWYNMFK66eGN_a14YvBdJ/view?usp=sharing)
+- 🔗 **Example Transaction Hash**: [`74376f376ddb0deb37b673ba0212d706d51322965518b120a2fca628cd4629c0`](https://stellar.expert/explorer/testnet/tx/74376f376ddb0deb37b673ba0212d706d51322965518b120a2fca628cd4629c0)
+- 📜 **ReliefLock Contract ID**: `CBGVHVHLAWWYKHRTGJY7N7BGNJBQKCGA4ETOJ4U57HUXFVE5QNXFYVN3`
+- 📊 **User Onboarding Data (11 Users)**: [View Exported CSV Sheet Here](https://docs.google.com/spreadsheets/d/1BlfDUX3k-ZgwfFF6wD24TQM0iMxORRYc5NLTxTbS_ls/edit?usp=sharing)
+- 📝 **Google Form Link**: [Feedback Form](https://docs.google.com/forms/d/e/1FAIpQLSeoXc5BGenr3DJ8m7D6SpEzbsdwcuKpwbqfERm-F7l7kwAr2A/viewform?usp=dialog)
 
 ## 🌟 Key Features
 
@@ -53,7 +53,7 @@ We successfully onboarded **11 real users** with Stellar Testnet wallets and ver
 
 ### 1. Users Onboarded (11 Users)
 
-| User ID | Name | Email | Wallet Address | Feedback & Suggestions |
+| User ID | Name | Email | Wallet Address | Feedback Summary |
 |---|---|---|---|---|
 | 1 | Anil Kumar | anilkumar981@gmail.com | GA7LHICPUKJGIR5HP66GSTCHNRYRQP7ZGRLRAEBHMH56FUFW5IJJMJUZ | The platform's UI is incredibly intuitive. I love the torn voucher stub design! Suggestion: Add SMS notifications when an NGO approves an application. |
 | 2 | Sunita Gupta | sunitagupta2204@gmail.com | GAW2TZETZNJ6JRMJQNEXRCZ54Z2MRW7YKHGUB2FVYAJ7OEMMT42BLNPW | Claiming XLM directly to my Freighter wallet was seamless and extremely fast. This is exactly what decentralized aid needs. |
