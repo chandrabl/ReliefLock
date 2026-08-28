@@ -264,17 +264,25 @@ export default function NgoDashboard() {
                       toast.error(err.message || 'Failed to authorize merchant')
                     }
                   }}
-                  className="flex gap-2"
+                  className="flex flex-col gap-2"
                 >
-                  <input
-                    name="merchant"
-                    placeholder="Merchant wallet address"
-                    className="flex-1 rounded-lg border border-[var(--color-line)] px-3 py-2 text-sm font-mono outline-none focus:border-[var(--color-ink)]"
-                    required
-                  />
-                  <button type="submit" className="rounded-lg bg-[var(--color-ink)] px-4 py-2 text-sm font-medium text-white hover:opacity-90">
-                    Authorize
-                  </button>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex gap-2">
+                      <input
+                        name="merchant"
+                        placeholder="Merchant wallet address"
+                        className="flex-1 rounded-lg border border-[var(--color-line)] px-3 py-2 text-sm font-mono outline-none focus:border-[var(--color-ink)]"
+                        required
+                      />
+                      <button type="submit" className="rounded-lg bg-[var(--color-ink)] px-4 py-2 text-sm font-medium text-white hover:opacity-90">
+                        Authorize
+                      </button>
+                    </div>
+                    <label className="flex items-center gap-2 text-xs text-[var(--color-ink-soft)] mt-1">
+                      <input type="checkbox" name="notify" defaultChecked className="rounded border-[var(--color-line)]" />
+                      Send email alert to merchant
+                    </label>
+                  </div>
                 </form>
               </div>
             ))}
