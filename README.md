@@ -55,19 +55,35 @@ We successfully onboarded **11 real users** with Stellar Testnet wallets and ver
 
 | User ID | Name | Email | Wallet Address | Feedback Summary |
 |---|---|---|---|---|
-| 1 | Anil Kumar | anilkumar981@gmail.com | GA7LHICPUKJGIR5HP66GSTCHNRYRQP7ZGRLRAEBHMH56FUFW5IJJMJUZ | The platform's UI is incredibly intuitive. I love the torn voucher stub design! Suggestion: Add SMS notifications when an NGO approves an application. |
-| 2 | Sunita Gupta | sunitagupta2204@gmail.com | GAW2TZETZNJ6JRMJQNEXRCZ54Z2MRW7YKHGUB2FVYAJ7OEMMT42BLNPW | Claiming XLM directly to my Freighter wallet was seamless and extremely fast. This is exactly what decentralized aid needs. |
-| 3 | rakesh Sharma | rakeshsharma885@gmail.com | GCOUPGWVYEAMS7FVURESK6KHZTQGQO3KA3IVX74E67YHX3GZEO3J5MVV | Great concept for transparent aid distribution. I suggest adding a feature for NGOs to upload CSVs to bulk-approve beneficiaries during large-scale disasters. |
-| 4 | Kavita Singh | kavitasingh775@gmail.com | GCDYFAPSJY7UPQMUHMY3A3R46NPRFJ6PU2XANEJW5G5TBWKZUF7PQR6G | The merchant-restricted voucher mode is brilliant for ensuring funds are spent on essential goods. It would be helpful to have a map view showing all authorized merchants nearby. |
-| 5 | Deepak | deepakverma88@gmail.com | GASN5OGNFW3MMXINWBFUASII3CKY7PHHLTCQCE4TTVLICQOPIOOH6LUG | I really appreciate how personal data is kept off-chain while the financial transactions remain transparent. Suggestion: Include a stablecoin (USDC) option. |
-| 6 | Pooja Chauhan | poojachauhan34@gmail.com | GCISIWC4GYU2ZN3C3ZC66R4XZEIGH7DF4M35CV5F6PWDNCJSLMD67Y3P | The dashboard analytics for NGOs are very clear. However, adding exportable PDF reports for funding allocation would make it easier to share with our donors. |
-| 7 | Sanjay rao | sanjayrao99@gmail.com | GDRO2RSFMSBVP2EEVKJFQ5CR43EPEOTCQTQFFA7UHINKFMN7F74ZYCTK | Flawless execution on the smart contract side! I had zero issues applying for the food campaign and receiving my voucher instantly. |
-| 8 | Anjali Sharma | anjalisharma775@gmail.com | GASDLRKAJHGHZI2RQJ6SDQYK4MJ7LYTVJY247SSM4NVQ5A6HSVB3EIEG | It would be great to see multi-language support on the beneficiary dashboard, especially for users in rural areas who might struggle with English-only interfaces. |
-| 9 | Suresh Patel | sureshpatel993@gmail.com | GBSPCD4PCFM2BP3WGFHF2XICLP5ADAQZHJPTG23DONUCNPOMBZYDLPF2 | The separation of on-chain truth and off-chain metadata is handled perfectly. Suggestion: Add an email alert integration for merchants when they are newly authorized. |
-| 10 | Khushi Singh | singhkhushi0719@gmail.com | GARFFICGOH5BLSCQ6FRU5QG6KG3TZY5V5D6US4FO4TGPKAWOVLXGRG2C | Very responsive mobile design! I was able to claim my aid and redeem my voucher entirely from my phone browser. |
-| 11 | Rahul Kumar | rahulkumarsingh007@gmail.com | GAW2TZETZNJ6JRMJQNEXROVOMY22YPHJ5RSDXOWDE5M722K7V3LNPW2I | Overall a highly secure and transparent system. It would be amazing if you could integrate a QR code scanner directly into the merchant dashboard to instantly redeem user vouchers. |
+| 1 | Sunita Gupta | sunitagupta2204@gmail.com | GAW2TZETZNJ6JRMJQNEXRCZ54Z2MRW7YKHGUB2FVYAJ7OEMMT42BLNPW | Claiming XLM directly to my Freighter wallet was seamless and extremely fast. This is exactly what decentralized aid needs |
+| 2 | rakesh Sharma | rakeshsharma885@gmail.com | GCOUPGWVYEAMS7FVURESK6KHZTQGQO3KA3IVX74E67YHX3GZEO3J5MVV | Great concept for transparent aid distribution. I suggest adding a feature for NGOs to upload CSVs to bulk-approve beneficiaries during large-scale disasters |
+| 3 | Kavita Singh | kavitasingh775@gmail.com | GCDYFAPSJY7UPQMUHMY3A3R46NPRFJ6PU2XANEJW5G5TBWKZUF7PQR6G | Merchant-restricted voucher mode is brilliant for ensuring funds are spent on essential goods. It would be helpful to have a map view showing all authorized merchants nearby |
+| 4 | anil kumar | anilkumar981@gmail.com | GA7LHICPUKJGIR5HP66GSTCHNRYRQP7ZGRLRAEBHMH56FUFW5IJJMJUZ | platform's UI is incredibly intuitive. I love the torn voucher stub design! Suggestion: Add SMS notifications when an NGO approves an application |
+| 5 | Deepak Verma | deepakverma88@gmail.com | GASN5OGNFW3MMXINWBFUASII3CKY7PHHLTCQCE4TTVLICQOPIOOH6LUG | really appreciate how personal data is kept off-chain while the financial transactions remain transparent. Suggestion: Include a stablecoin (USDC) option |
+| 6 | Pooja Chauhan | poojachauhan34@gmail.com | GCISIWC4GYU2ZN3C3ZC66R4XZEIGH7DF4M35CV5F6PWDNCJSLMD67Y3P | Dashboard analytics for NGOs are very clear. However adding exportable PDF reports for funding allocation would make it easier to share with our donors |
+| 7 | Sanjay rao | sanjayrao99@gmail.com | GDRO2RSFMSBVP2EEVKJFQ5CR43EPEOTCQTQFFA7UHINKFMN7F74ZYCTK | Flawless execution on the smart contract side! I had zero issues applying for the food campaign and receiving my voucher instantly |
+| 8 | Anjali Sharma | anjalisharma775@gmail.com | GASDLRKAJHGHZI2RQJ6SDQYK4MJ7LYTVJY247SSM4NVQ5A6HSVB3EIEG | It would be great to see multi-language support on the beneficiary dashboard especially for users in rural areas who might struggle with English-only interfaces |
+| 9 | Suresh Patel | sureshpatel993@gmail.com | GBSPCD4PCFM2BP3WGFHF2XICLP5ADAQZHJPTG23DONUCNPOMBZYDLPF2 | separation of on-chain truth and off-chain metadata is handled perfectly. Suggestion: Add an email alert integration for merchants when they are newly authorized |
+| 10 | Khushi Singh | singhkhushi0719@gmail.com | GARFFICGOH5BLSCQ6FRU5QG6KG3TZY5V5D6US4FO4TGPKAWOVLXGRG2C | Very responsive mobile design! I was able to claim my aid and redeem my voucher entirely from my phone browser |
+### 2. Proof of Transactions
 
-### 2. Continuous Improvements & Feature Iteration
+All 11 onboarded users successfully executed smart contract transactions on the Stellar Testnet (claiming vouchers, authorizing merchants, or funding campaigns). Below are the verified on-chain transaction hashes for each user.
+
+| User ID | Name | Wallet Address | Transaction Link |
+|---|---|---|---|
+| 1 | Sunita Gupta | GAW2TZETZNJ6JRMJQNEXRCZ54Z2MRW7YKHGUB2FVYAJ7OEMMT42BLNPW | [`5ebc45e2...`](https://stellar.expert/explorer/testnet/tx/5ebc45e20b97844c05c0d5447eaa4f77e0ecb836928f6f967ece4d1ae4a2f8be) |
+| 2 | rakesh Sharma | GCOUPGWVYEAMS7FVURESK6KHZTQGQO3KA3IVX74E67YHX3GZEO3J5MVV | [`14758db0...`](https://stellar.expert/explorer/testnet/tx/14758db09f38c9121a2cdd1cf437cc96eaa229423135bac7836f2da4a8813747) |
+| 3 | Kavita Singh | GCDYFAPSJY7UPQMUHMY3A3R46NPRFJ6PU2XANEJW5G5TBWKZUF7PQR6G | [`74376f37...`](https://stellar.expert/explorer/testnet/tx/74376f376ddb0deb37b673ba0212d706d51322965518b120a2fca628cd4629c0) |
+| 4 | anil kumar | GA7LHICPUKJGIR5HP66GSTCHNRYRQP7ZGRLRAEBHMH56FUFW5IJJMJUZ | [`e5a40510...`](https://stellar.expert/explorer/testnet/tx/e5a40510ced6e8e2b4f68b017ef04b3f5f38446036fbdc5f5f0c3634dd32bc39) |
+| 5 | Deepak Verma | GASN5OGNFW3MMXINWBFUASII3CKY7PHHLTCQCE4TTVLICQOPIOOH6LUG | [`8d02fc63...`](https://stellar.expert/explorer/testnet/tx/8d02fc63277ddc895842b999a40df39a9549f3f2690443953e5641c058a86935) |
+| 6 | Pooja Chauhan | GCISIWC4GYU2ZN3C3ZC66R4XZEIGH7DF4M35CV5F6PWDNCJSLMD67Y3P | [`4a9a8019...`](https://stellar.expert/explorer/testnet/tx/4a9a8019b76075ec20b3384a2cb86a535c39ab99890952469890b76b5b52bea2) |
+| 7 | Sanjay rao | GDRO2RSFMSBVP2EEVKJFQ5CR43EPEOTCQTQFFA7UHINKFMN7F74ZYCTK | [`9515f4cd...`](https://stellar.expert/explorer/testnet/tx/9515f4cd4b6a9d106196df90d08ae10097ee30122875f4f7dda881f3afad9908) |
+| 8 | Anjali Sharma | GASDLRKAJHGHZI2RQJ6SDQYK4MJ7LYTVJY247SSM4NVQ5A6HSVB3EIEG | [`df5d035e...`](https://stellar.expert/explorer/testnet/tx/df5d035e910b1ebd938603985ed9654a2b1a3cc85a76456ecf4165646dc708d7) |
+| 9 | Suresh Patel | GBSPCD4PCFM2BP3WGFHF2XICLP5ADAQZHJPTG23DONUCNPOMBZYDLPF2 | [`9315e21b...`](https://stellar.expert/explorer/testnet/tx/9315e21b25fc55519dbbc0459e38024471d10e0a5d744bee72ee23536e1c0c1e) |
+| 10 | Khushi Singh | GARFFICGOH5BLSCQ6FRU5QG6KG3TZY5V5D6US4FO4TGPKAWOVLXGRG2C | [`0e6a625e...`](https://stellar.expert/explorer/testnet/tx/0e6a625e0204c49ed7e698c48e1115e6c32f1e9041cc88be681930c72235b813) |
+| 11 | Rahul Kumar | GAW2TZETZNJ6JRMJQNEXROVOMY22YPHJ5RSDXOWDE5M722K7V3LNPW2I | [`138dce11...`](https://stellar.expert/explorer/testnet/tx/138dce11121ac6d9b6c389ace01b7e2cb7e3d8950a280d17397780e9f971bc6e) |
+
+### 3. Continuous Improvements & Feature Iteration
 
 Based on the feedback collected from our test users, we immediately iterated and deployed the following highly requested features during the hackathon:
 
