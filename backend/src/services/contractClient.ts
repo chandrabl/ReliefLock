@@ -31,9 +31,13 @@ export class ContractClient {
       const operation = contract.call(method, ...args);
 
       // A throwaway source account is fine for simulation-only reads.
+      // Must be a valid formatted ed25519 public key.
       const account = await this.server.getAccount(
-        "GAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWHF",
-      ).catch(() => null);
+        "GCDYFAPSJY7UPQMUHMY3A3R46NPRFJ6PU2XANEJW5G5TBWKZUF7PQR6G",
+      ).catch(async () => {
+        const { Account } = await import("@stellar/stellar-sdk");
+        return new Account("GCDYFAPSJY7UPQMUHMY3A3R46NPRFJ6PU2XANEJW5G5TBWKZUF7PQR6G", "0");
+      });
       if (!account) {
         logger.warn("Unable to fetch simulation source account; skipping read");
         return null;
