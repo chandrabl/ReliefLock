@@ -10,6 +10,8 @@ export interface VoucherStubProps {
   claimed?: boolean
   onClaim?: () => void
   claiming?: boolean
+  onFund?: () => void
+  funding?: boolean
 }
 
 const statusColor: Record<VoucherStubProps['status'], string> = {
@@ -38,6 +40,8 @@ export function VoucherStub({
   claimed,
   onClaim,
   claiming,
+  onFund,
+  funding,
 }: VoucherStubProps) {
   return (
     <motion.div
@@ -74,15 +78,26 @@ export function VoucherStub({
             <p className="mt-1 text-xs text-[var(--color-ink-soft)]">Claim window ends {deadline}</p>
           </div>
 
-          {onClaim && (
-            <button
-              onClick={onClaim}
-              disabled={claimed || claiming || status !== 'Active'}
-              className="rounded-full bg-[var(--color-aid)] px-4 py-2 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              {claimed ? 'Claimed' : claiming ? 'Claiming…' : 'Claim aid'}
-            </button>
-          )}
+          <div className="flex gap-2">
+            {onFund && status === 'Draft' && (
+              <button
+                onClick={onFund}
+                disabled={funding}
+                className="rounded-full bg-[var(--color-ink)] px-4 py-2 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                {funding ? 'Funding…' : 'Fund Campaign'}
+              </button>
+            )}
+            {onClaim && (
+              <button
+                onClick={onClaim}
+                disabled={claimed || claiming || status !== 'Active'}
+                className="rounded-full bg-[var(--color-aid)] px-4 py-2 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                {claimed ? 'Claimed' : claiming ? 'Claiming…' : 'Claim aid'}
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </motion.div>

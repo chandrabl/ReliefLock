@@ -10,8 +10,50 @@ import { connectWallet } from '@/lib/wallet'
 import { contractCalls } from '@/lib/contract'
 
 export default function NgoDashboard() {
+  const queryClient = useQueryClient()
   const { data } = useCampaigns()
   const [showForm, setShowForm] = useState(false)
+  const [fundingId, setFundingId] = useState<number | null>(null)
+
+  async function handleFund(campaignId: number, totalFunding: string) {
+    setFundingId(campaignId)
+    try {
+      const wallet = await connectWallet()
+      if (!wallet.address) throw new Error('Connect your wallet first')
+
+      // totalFunding in backend is unscaled (e.g. 1000000000) so we just convert it directly
+      const amount = BigInt(totalFunding)
+
+      const { hash } = await contractCalls.fundCampaign(wallet.address, campaignId, amount)
+      
+      await api.post('/transactions', {
+        hash,
+        type: 'fund_campaign',
+        campaignOnChainId: campaignId,
+        initiatorWallet: wallet.address,
+      })
+
+      toast.success(
+        <div>
+          Campaign funded successfully!{' '}
+          <a
+            href={`https://stellar.expert/explorer/testnet/tx/${hash}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+          >
+            View on Explorer
+          </a>
+        </div>
+      )
+      
+      queryClient.invalidateQueries({ queryKey: ['campaigns'] })
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Funding failed. Please try again.')
+    } finally {
+      setFundingId(null)
+    }
+  }
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
@@ -53,6 +95,8 @@ export default function NgoDashboard() {
               allocation={allocString}
               token="XLM"
               deadline={deadline}
+              funding={fundingId === c.onChainId}
+              onFund={() => handleFund(c.onChainId, String(c.totalFunding || 0))}
             />
           )
         })}
