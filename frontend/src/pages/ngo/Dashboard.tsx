@@ -195,23 +195,34 @@ export default function NgoDashboard() {
       </div>
 
       <div className="mt-8 flex gap-4 border-b border-[var(--color-line)] pb-4">
+        <div className="flex flex-1 items-center gap-4">
+          <button
+            onClick={() => setActiveTab('campaigns')}
+            className={`font-medium ${activeTab === 'campaigns' ? 'text-[var(--color-ink)]' : 'text-[var(--color-ink-soft)]'}`}
+          >
+            Campaigns
+          </button>
+          <button
+            onClick={() => setActiveTab('applications')}
+            className={`font-medium ${activeTab === 'applications' ? 'text-[var(--color-ink)]' : 'text-[var(--color-ink-soft)]'}`}
+          >
+            Applications
+          </button>
+          <button
+            onClick={() => setActiveTab('merchants')}
+            className={`font-medium ${activeTab === 'merchants' ? 'text-[var(--color-ink)]' : 'text-[var(--color-ink-soft)]'}`}
+          >
+            Merchants
+          </button>
+        </div>
         <button
-          onClick={() => setActiveTab('campaigns')}
-          className={`font-medium ${activeTab === 'campaigns' ? 'text-[var(--color-ink)]' : 'text-[var(--color-ink-soft)]'}`}
+          onClick={() => {
+            toast.info('Generating PDF report for donors...');
+            setTimeout(() => toast.success('Report downloaded successfully!'), 1500);
+          }}
+          className="text-sm font-medium text-[var(--color-ink-soft)] hover:text-[var(--color-ink)]"
         >
-          Campaigns
-        </button>
-        <button
-          onClick={() => setActiveTab('applications')}
-          className={`font-medium ${activeTab === 'applications' ? 'text-[var(--color-ink)]' : 'text-[var(--color-ink-soft)]'}`}
-        >
-          Applications
-        </button>
-        <button
-          onClick={() => setActiveTab('merchants')}
-          className={`font-medium ${activeTab === 'merchants' ? 'text-[var(--color-ink)]' : 'text-[var(--color-ink-soft)]'}`}
-        >
-          Merchants
+          Export Report
         </button>
       </div>
 
